@@ -4,7 +4,7 @@
 
   import { currPath } from '../../../stores/pathname'
 
-  import type { TPathNames } from '../../../types/links'
+  import type { TLinkNames, TPathNames } from '../../../types/links'
 
   onMount(() => {
     currPath.set(window.location.pathname as TPathNames)
@@ -13,22 +13,19 @@
   const handleClick = (newPath: TPathNames) => {
     currPath.set(newPath)
   }
+
+  const links: { href: TPathNames; text: TLinkNames }[] = [
+    { href: '/', text: 'Explore' },
+    { href: '/my-favorites', text: 'My Favorites' },
+    { href: '/about', text: 'About' },
+  ]
 </script>
 
 <nav>
   <ul>
-    <NavLink on:click={() => handleClick('/')} href="/" text="Explore" />
-    <NavLink
-      on:click={() => handleClick('/my-favorites')}
-      href="/my-favorites"
-      text="My Favorites"
-    />
-    <NavLink
-      on:click={() => handleClick('/about')}
-      href="/about"
-      text="About"
-      noMargin
-    />
+    {#each links as { href, text }}
+      <NavLink on:click={() => handleClick('/')} {href} {text} />
+    {/each}
   </ul>
 </nav>
 
@@ -38,7 +35,7 @@
   nav {
     border-bottom: 1px solid $colorLight;
     font-weight: $normal;
-    height: 56px;
+    height: 64px;
   }
 
   ul {

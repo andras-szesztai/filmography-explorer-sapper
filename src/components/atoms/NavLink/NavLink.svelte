@@ -27,6 +27,7 @@
   a {
     text-decoration: none;
     font-weight: $normal;
+    font-size: $fs-h6;
     padding: 1em 0.5em;
     display: block;
     transition: color 0.2s ease;

@@ -1,7 +1,5 @@
 <svelte:head>
-	<title>About</title>
+    <title>Filmography Explorer - About</title>
 </svelte:head>
 
-<h1>About this site</h1>
-
-<p>This is the 'about' page. There's not much here.</p>
+<h1>About</h1>

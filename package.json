@@ -1,6 +1,6 @@
 {
   "name": "filmography-explorer",
-  "description": "A web app to easier discover the filmography of actors, directors and writers",
+  "description": "A web application to easier discover the filmography of actors, directors and writers",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",

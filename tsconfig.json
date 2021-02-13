@@ -1,29 +1,30 @@
 {
 	"compilerOptions": {
-		"noImplicitThis": true,
-		"noEmitOnError": true,
-		"allowJs": true,
-		"strict": true,
-		"allowSyntheticDefaultImports": true,
-		"moduleResolution": "Node",
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-    "lib": ["esnext", "webworker"],
-		"importHelpers": true,
-		"target": "ES6",
-		"baseUrl": ".",
-		"paths": {
-			"@sapper/*": ["runtime/src/*"]
-		}
+			"lib": [
+					"DOM",
+					"ES2017",
+					"WebWorker"
+			],
+			"target": "es2017",
+			"allowSyntheticDefaultImports": true,
+			"emitDecoratorMetadata": true,
+			"experimentalDecorators": true,
+			"importsNotUsedAsValues": "error",
+			"isolatedModules": true,
+			"moduleResolution": "node",
+			"sourceMap": true,
+			"strict": true,
+			"types": [
+					"svelte"
+			],
 	},
 	"include": [
-		"src",
-		"runtime"
+			"src/**/*",
+			"src/node_modules/**/*"
 	],
 	"exclude": [
-		"node_modules"
+			"node_modules/*",
+			"__sapper__/*",
+			"static/*"
 	],
-	"types": [
-		"@sapper"
-	]
 }

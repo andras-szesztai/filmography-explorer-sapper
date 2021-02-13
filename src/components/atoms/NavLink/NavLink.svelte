@@ -1,9 +1,19 @@
 <script lang="ts">
-  export let href: '/' | 'my-favorites' | 'about'
+  import type { TLinkNames, TPathNames } from '../../../types/links'
+
+  import { currPath } from '../../../stores/pathname'
+
+  export let href: TPathNames
+  export let text: TLinkNames
+  export let noMargin: boolean = false
+
+  $: isActive = $currPath === href
 </script>
 
 <li>
-  <a {href}>About</a>
+  <a on:click {href} class:margin-right={!noMargin} class:active={isActive}
+    >{text}</a
+  >
 </li>
 
 <style lang="scss">
@@ -16,7 +26,23 @@
 
   a {
     text-decoration: none;
+    font-weight: $normal;
     padding: 1em 0.5em;
     display: block;
+    transition: color 0.2s ease;
+
+    color: $colorLight;
+
+    &:hover {
+      color: $colorSecondary;
+    }
+  }
+
+  .margin-right {
+    margin-right: 16px;
+  }
+
+  .active {
+    color: $colorSecondary;
   }
 </style>

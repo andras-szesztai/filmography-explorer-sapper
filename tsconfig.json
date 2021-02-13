@@ -1,8 +1,29 @@
 {
-		"extends": "@tsconfig/svelte/tsconfig.json",
-		"compilerOptions": {
-			"lib": ["DOM", "ES2017", "WebWorker"]
-		},
-		"include": ["src/**/*", "src/node_modules/**/*"],
-		"exclude": ["node_modules/*", "__sapper__/*", "static/*"]
-	}
+	"compilerOptions": {
+		"noImplicitThis": true,
+		"noEmitOnError": true,
+		"allowJs": true,
+		"strict": true,
+		"allowSyntheticDefaultImports": true,
+		"moduleResolution": "Node",
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+    "lib": ["esnext", "webworker"],
+		"importHelpers": true,
+		"target": "ES6",
+		"baseUrl": ".",
+		"paths": {
+			"@sapper/*": ["runtime/src/*"]
+		}
+	},
+	"include": [
+		"src",
+		"runtime"
+	],
+	"exclude": [
+		"node_modules"
+	],
+	"types": [
+		"@sapper"
+	]
+}

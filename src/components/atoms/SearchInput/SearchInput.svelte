@@ -12,6 +12,7 @@
     border: none;
     padding: 2px;
     flex: 1;
+    width: 100%;
 
     font-family: 'Nunito', sans-serif;
     font-weight: $normal;

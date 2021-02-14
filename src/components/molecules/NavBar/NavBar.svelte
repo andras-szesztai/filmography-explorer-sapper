@@ -3,7 +3,7 @@
   import { NavLink } from '../../atoms'
 
   import { Button } from '../../atoms'
-  import { UserIcon } from '../../atoms/icons'
+  import { User } from '../../atoms/icons'
 
   import { currPath } from '../../../stores/pathname'
 
@@ -26,7 +26,7 @@
       <NavLink on:click={() => handleClick(href)} {href} {text} {delay} />
     {/each}
   </ul>
-  <Button text="Login" icon={UserIcon} />
+  <Button text="Login" icon={User} />
 </nav>
 
 <style lang="scss">

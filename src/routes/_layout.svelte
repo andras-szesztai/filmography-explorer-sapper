@@ -13,9 +13,10 @@
 <style lang="scss">
   @import '../styles/variables.scss';
   main {
-    max-width: 90vw;
+    width: 100vw;
     padding-top: 1em;
     margin: 0 auto;
+    position: relative;
   }
 
   :global(body) {

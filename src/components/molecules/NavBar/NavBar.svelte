@@ -14,17 +14,18 @@
     currPath.set(newPath)
   }
 
-  const links: { href: TPathNames; text: TLinkNames }[] = [
-    { href: '/', text: 'Explore' },
-    { href: '/my-favorites', text: 'My Favorites' },
-    { href: '/about', text: 'About' },
+  const links: { href: TPathNames; text: TLinkNames; delay: number }[] = [
+    { href: '/', text: 'Explore', delay: 0 },
+    { href: '/my-favorites', text: 'My Favorites', delay: 100 },
+    { href: '/about', text: 'About', delay: 200 },
   ]
+  // TODO: add Login button to other side (opens modal later)
 </script>
 
 <nav>
   <ul>
-    {#each links as { href, text }}
-      <NavLink on:click={() => handleClick('/')} {href} {text} />
+    {#each links as { href, text, delay }}
+      <NavLink on:click={() => handleClick(href)} {href} {text} {delay} />
     {/each}
   </ul>
 </nav>

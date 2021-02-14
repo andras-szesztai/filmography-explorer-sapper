@@ -1,2 +1,2 @@
-export type TPathNames = '/' | '/my-favorites' | '/about'
-export type TLinkNames = 'Explore' | 'My Favorites' | 'About'
+export type TPathNames = '/' | '/watchlist' | '/about'
+export type TLinkNames = 'Explore' | 'Watchlist' | 'About'

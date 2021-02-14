@@ -8,7 +8,9 @@
 </script>
 
 <button class={`${size} ${type}`}>
-  {capitalize(text)}
+  <span class="text-container">
+    {capitalize(text)}
+  </span>
   {#if icon}
     <span class="icon-container">
       <svelte:component this={icon} />
@@ -39,13 +41,26 @@
 
   .default {
     padding: 2px 24px;
-    border-radius: 8px;
+    border-radius: 4px;
     font-weight: $normal;
     font-size: $fs-h5;
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1px 20px;
+    }
   }
 
+  .text-container {
+    @media (max-width: $breakpoint-mobile) {
+      display: none;
+    }
+  }
   .icon-container {
     margin-left: 12px;
     transform: translateY(3px);
+
+    @media (max-width: $breakpoint-mobile) {
+      margin-left: 0px;
+    }
   }
 </style>

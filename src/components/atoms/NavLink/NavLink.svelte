@@ -81,10 +81,18 @@
     &:focus {
       color: $colorSecondary;
     }
+
+    @media (max-width: $breakpoint-mobile) {
+      font-size: $fs-h6;
+      padding: 0.6em 0.3em;
+    }
   }
 
   .margin-right {
     margin-right: 16px;
+    @media (max-width: $breakpoint-mobile) {
+      margin-right: 10px;
+    }
   }
 
   .active {
@@ -101,5 +109,9 @@
     border-radius: 8px;
 
     transform: scaleX(0);
+
+    @media (max-width: $breakpoint-mobile) {
+      bottom: 6px;
+    }
   }
 </style>

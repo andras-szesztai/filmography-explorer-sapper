@@ -2,7 +2,7 @@
   <title>Filmography Explorer - About</title>
 </svelte:head>
 
-<h1>My Favorites</h1>
+<h1>Watchlist</h1>
 
 <style lang="scss">
   @import '../../styles/variables.scss';

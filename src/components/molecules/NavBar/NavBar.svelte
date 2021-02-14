@@ -18,7 +18,7 @@
 
   const links: { href: TPathNames; text: TLinkNames; delay: number }[] = [
     { href: '/', text: 'Explore', delay: 0 },
-    { href: '/my-favorites', text: 'My Favorites', delay: 100 },
+    { href: '/watchlist', text: 'Watchlist', delay: 100 },
     { href: '/about', text: 'About', delay: 200 },
   ]
   // TODO: add Login button to other side (opens modal later)
@@ -45,6 +45,11 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 24px;
+
+    @media (max-width: $breakpoint-mobile) {
+      height: 56px;
+      padding: 0 12px;
+    }
   }
 
   ul {

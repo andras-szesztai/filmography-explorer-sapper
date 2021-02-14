@@ -26,12 +26,18 @@
 </script>
 
 <div class="switch">
-  <button on:click={() => dispatch('toggle', 'person')}>
+  <button
+    aria-label="Toggle to person search"
+    on:click={() => dispatch('toggle', 'person')}
+  >
     <span class="persons-icon">
       <Persons />
     </span>
   </button>
-  <button on:click={() => dispatch('toggle', 'movie')}>
+  <button
+    aria-label="Toggle to movie search"
+    on:click={() => dispatch('toggle', 'movie')}
+  >
     <span class="movie-icon">
       <Movie />
     </span>

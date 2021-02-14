@@ -10,8 +10,4 @@
 
 <style lang="scss">
   @import '../styles/variables.scss';
-
-  h1 {
-    color: $colorLight;
-  }
 </style>

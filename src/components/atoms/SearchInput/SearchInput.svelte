@@ -3,7 +3,15 @@
   export let value: string
 </script>
 
-<input type="text" bind:value on:input aria-label={placeholder} {placeholder} />
+<input
+  type="text"
+  bind:value
+  on:input
+  on:focus
+  on:blur
+  aria-label={placeholder}
+  {placeholder}
+/>
 
 <style lang="scss">
   @import '../../../styles/variables.scss';
@@ -12,14 +20,16 @@
     border: none;
     padding: 2px;
     flex: 1;
+    width: 100%;
 
     font-family: 'Nunito', sans-serif;
     font-weight: $normal;
-    font-size: $fs-base;
+    font-size: $fs-h6;
     color: $colorLight;
 
     &::placeholder {
       color: $colorLight;
+      opacity: 1;
     }
 
     &:focus {

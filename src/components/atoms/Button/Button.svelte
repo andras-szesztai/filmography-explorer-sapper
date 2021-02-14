@@ -7,10 +7,12 @@
   export let type: 'primary' = 'primary'
   export let size: 'default' = 'default'
   export let icon: typeof SvelteComponent | undefined = undefined
+
+  let buttonElement: HTMLButtonElement
 </script>
 
-<button class={`${size} ${type}`}>
-  <span class:text-container={icon}>
+<button class={`${size} ${type}`} bind:this={buttonElement}>
+  <span class:text-container={icon} on:click={() => buttonElement.blur()}>
     {capitalize(text)}
   </span>
   {#if icon}
@@ -36,6 +38,7 @@
 
     &:hover,
     &:focus {
+      outline: none;
       background-color: $colorPrimary;
       border: 2px solid $colorSecondary;
     }

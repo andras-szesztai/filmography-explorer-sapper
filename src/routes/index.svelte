@@ -1,11 +1,12 @@
 <script>
+  import { MainSearchBar } from '../components/molecules'
 </script>
 
 <svelte:head>
   <title>Filmography Explorer - Explore</title>
 </svelte:head>
 
-<h1>Explorer</h1>
+<MainSearchBar />
 
 <style lang="scss">
   @import '../styles/variables.scss';

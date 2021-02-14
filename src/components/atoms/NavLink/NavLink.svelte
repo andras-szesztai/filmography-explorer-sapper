@@ -53,7 +53,7 @@
       class:margin-right={!noMargin}
       class:active={isActive}
       >{text}
-      <span id="underline" bind:this={underLineSpan} />
+      <span class="underline" bind:this={underLineSpan} />
     </a>
   {/if}
 </li>
@@ -77,7 +77,8 @@
     color: $colorLight;
     position: relative;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: $colorSecondary;
     }
   }
@@ -90,7 +91,7 @@
     color: $colorSecondary;
   }
 
-  #underline {
+  .underline {
     position: absolute;
     bottom: 12px;
     left: 0px;

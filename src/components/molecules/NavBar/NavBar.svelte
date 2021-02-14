@@ -5,6 +5,8 @@
   import { currPath } from '../../../stores/pathname'
 
   import type { TLinkNames, TPathNames } from '../../../types/links'
+  import Button from '../../atoms/Button/Button.svelte'
+  import UserIcon from '../../atoms/icons/UserIcon/UserIcon.svelte'
 
   onMount(() => {
     currPath.set(window.location.pathname as TPathNames)
@@ -28,15 +30,21 @@
       <NavLink on:click={() => handleClick(href)} {href} {text} {delay} />
     {/each}
   </ul>
+  <Button text="Login" icon={UserIcon} />
 </nav>
 
 <style lang="scss">
   @import '../../../styles/variables.scss';
 
   nav {
-    border-bottom: 1px solid $colorLight;
+    border-bottom: 2px solid $colorLight;
     font-weight: $normal;
     height: 64px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
   }
 
   ul {

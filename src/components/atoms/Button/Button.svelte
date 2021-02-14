@@ -1,6 +1,8 @@
 <script lang="ts">
-  import capitalize from 'lodash/capitalize'
   import type { SvelteComponent } from 'svelte'
+  import capitalize from 'lodash/capitalize'
+
+  // Props
   export let text: string = 'Button'
   export let type: 'primary' = 'primary'
   export let size: 'default' = 'default'
@@ -8,7 +10,7 @@
 </script>
 
 <button class={`${size} ${type}`}>
-  <span class="text-container">
+  <span class:text-container={icon}>
     {capitalize(text)}
   </span>
   {#if icon}
@@ -46,7 +48,8 @@
     font-size: $fs-h5;
 
     @media (max-width: $breakpoint-mobile) {
-      padding: 1px 20px;
+      padding: 1px 18px;
+      font-size: $fs-h6;
     }
   }
 

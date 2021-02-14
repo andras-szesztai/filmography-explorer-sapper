@@ -1,22 +1,25 @@
 <script lang="ts">
   import { afterUpdate, beforeUpdate, onMount } from 'svelte'
   import { fade } from 'svelte/transition'
-  import gsap from 'gsap'
 
   import { currPath } from '../../../stores/pathname'
 
+  import { animateUnderline } from './utils'
+
   import type { TLinkNames, TPathNames } from '../../../types/links'
 
+  // Props
   export let href: TPathNames
   export let text: TLinkNames
   export let delay: number
   export let noMargin: boolean = false
 
-  let underLineSpan: HTMLSpanElement
-
+  // State
   let previouslyActive = false
   let isInitialized = false
   $: isActive = $currPath === href
+
+  let underLineSpan: HTMLSpanElement
 
   onMount(() => {
     isInitialized = true
@@ -24,24 +27,15 @@
   beforeUpdate(() => {
     if (isActive) {
       previouslyActive = true
-      animateUnderline(1, 0.3)
+      animateUnderline(underLineSpan, 1, 0.3)
     }
   })
   afterUpdate(() => {
     if (!isActive && previouslyActive) {
       previouslyActive = false
-      animateUnderline(0, 0.2)
+      animateUnderline(underLineSpan, 0, 0.2)
     }
   })
-
-  function animateUnderline(scaleX: number, duration: number) {
-    gsap.to(underLineSpan, {
-      scaleX: scaleX,
-      duration: duration,
-      delay: 0.1,
-      ease: 'power2.inOut',
-    })
-  }
 </script>
 
 <li>

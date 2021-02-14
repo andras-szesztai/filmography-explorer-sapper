@@ -2,11 +2,14 @@
   import { onMount } from 'svelte'
   import { NavLink } from '../../atoms'
 
+  import { Button } from '../../atoms'
+  import { UserIcon } from '../../atoms/icons'
+
   import { currPath } from '../../../stores/pathname'
 
-  import type { TLinkNames, TPathNames } from '../../../types/links'
-  import Button from '../../atoms/Button/Button.svelte'
-  import UserIcon from '../../atoms/icons/UserIcon/UserIcon.svelte'
+  import type { TPathNames } from '../../../types/links'
+
+  import { LINKS } from './constants'
 
   onMount(() => {
     currPath.set(window.location.pathname as TPathNames)
@@ -15,18 +18,11 @@
   const handleClick = (newPath: TPathNames) => {
     currPath.set(newPath)
   }
-
-  const links: { href: TPathNames; text: TLinkNames; delay: number }[] = [
-    { href: '/', text: 'Explore', delay: 0 },
-    { href: '/watchlist', text: 'Watchlist', delay: 100 },
-    { href: '/about', text: 'About', delay: 200 },
-  ]
-  // TODO: add Login button to other side (opens modal later)
 </script>
 
 <nav>
   <ul>
-    {#each links as { href, text, delay }}
+    {#each LINKS as { href, text, delay }}
       <NavLink on:click={() => handleClick(href)} {href} {text} {delay} />
     {/each}
   </ul>

@@ -38,6 +38,7 @@
     gsap.to(underLineSpan, {
       scaleX: scaleX,
       duration: duration,
+      delay: 0.1,
       ease: 'power2.inOut',
     })
   }

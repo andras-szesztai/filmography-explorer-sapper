@@ -2,6 +2,7 @@ interface ISearchResultBase {
   id: string
 }
 
+export type TSearchTypes = 'person' | 'movie'
 export interface IMovieSearchResult extends ISearchResultBase {
   genre_ids: number[]
   backdrop_path: string

@@ -1,4 +1,5 @@
 import gsap from 'gsap'
+
 export const animateUnderline = (
   el: HTMLSpanElement,
   scaleX: number,

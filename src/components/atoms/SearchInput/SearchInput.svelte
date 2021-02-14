@@ -16,7 +16,7 @@
 
     font-family: 'Nunito', sans-serif;
     font-weight: $normal;
-    font-size: $fs-base;
+    font-size: $fs-h6;
     color: $colorLight;
 
     &::placeholder {

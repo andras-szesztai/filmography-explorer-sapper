@@ -1,0 +1,83 @@
+<script lang="ts">
+  import { afterUpdate } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
+  import gsap from 'gsap'
+
+  import { Persons, Movie } from '../../atoms/icons'
+
+  import type { TSearchTypes } from '../../../types/mainSearchResults'
+
+  // Props
+  export let selected: TSearchTypes
+
+  const dispatch = createEventDispatcher<{
+    toggle: TSearchTypes
+  }>()
+
+  let spanElement: HTMLSpanElement
+
+  afterUpdate(() => {
+    gsap.to(spanElement, {
+      x: selected === 'movie' ? 43 : 0,
+      duration: 0.3,
+      ease: 'power4.inOut',
+    })
+  })
+</script>
+
+<div class="switch">
+  <button on:click={() => dispatch('toggle', 'person')}>
+    <span class="persons-icon">
+      <Persons />
+    </span>
+  </button>
+  <button on:click={() => dispatch('toggle', 'movie')}>
+    <span class="movie-icon">
+      <Movie />
+    </span>
+  </button>
+  <span class="active" bind:this={spanElement} />
+</div>
+
+<style lang="scss">
+  @import '../../../styles/variables.scss';
+
+  .switch {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 68px;
+
+    button {
+      display: flex;
+      background-color: transparent;
+      border: 1px solid transparent;
+      padding: 0;
+      z-index: 1;
+      cursor: pointer;
+
+      &:focus-visible {
+        border: 1px solid darken($colorSecondary, 5%);
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    .persons-icon {
+      transform: translateY(6px);
+    }
+    .movie-icon {
+      transform: translateY(5px);
+    }
+
+    .active {
+      position: absolute;
+      background-color: darken($colorSecondary, 5%);
+      left: -6px;
+      top: -3px;
+      width: 40px;
+      height: 36px;
+      border-radius: 3px;
+    }
+  }
+</style>

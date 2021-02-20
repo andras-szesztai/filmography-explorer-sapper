@@ -61,7 +61,6 @@
   }
   const handleBlur = () => {
     isFocused = false
-    data = []
   }
   $: placeholder =
     selected === SearchTypes.person
@@ -109,13 +108,23 @@
       {#if isFocused}
         {#if !error}
           {#if !data.length}
-            <span in:fade={{ delay: 200 }} class="placeholder"
-              >Search for a {placeholder}</span
-            >
+            {#if !loading}
+              <span in:fade={{ delay: 200 }} class="placeholder"
+                >Search for a {placeholder}</span
+              >
+            {:else}
+              <span in:fade class="placeholder">Loading..</span>
+            {/if}
           {:else}
-            {#each data as result}
-              <SearchResult {result} />
-            {/each}
+            <div class="results-container">
+              {#each data as result, index}
+                <SearchResult
+                  {result}
+                  marginBottom={index < data.length - 1}
+                  {index}
+                />
+              {/each}
+            </div>
           {/if}
         {:else}
           <div>{error}</div>
@@ -178,11 +187,12 @@
     padding: 8px 16px;
 
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 
     width: 400px;
     height: 200px;
+    overflow-y: scroll;
     background-color: $colorPrimary;
     border-radius: 0 0 4px 4px;
     border-left: 2px solid darken($colorSecondary, 5%);
@@ -195,6 +205,13 @@
       font-weight: $normal;
       font-size: $fs-h6;
       color: $colorLight;
+      padding-left: 21px;
     }
+  }
+
+  .results-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 </style>

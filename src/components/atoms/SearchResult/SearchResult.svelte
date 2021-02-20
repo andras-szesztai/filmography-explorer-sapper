@@ -1,5 +1,14 @@
 <script lang="ts">
-  // export let result: string
+  import type {
+    IPersonSearchResult,
+    IMovieSearchResult,
+  } from '../../../types/mainSearchResults'
+
+  export let result: IMovieSearchResult | IPersonSearchResult
 </script>
 
-<div>Result</div>
+{#if 'title' in result}
+  <div>{result.title}</div>
+{:else}
+  <div>{result.name}</div>
+{/if}

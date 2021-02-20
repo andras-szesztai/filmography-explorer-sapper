@@ -10,9 +10,9 @@
   import { MOVIE_DB_URL } from '../../../constants/requests'
 
   import type {
-    IMovieSearchDataState,
-    IPersonSearchDataState,
+    IMovieSearchResult,
     IPersonSearchResult,
+    TSearchTypes,
   } from '../../../types/mainSearchResults'
   import { SearchTypes } from '../../../types/mainSearchResults'
 
@@ -21,12 +21,10 @@
   // State
   let value: string
   let timer: number
-  const dataState: IMovieSearchDataState | IPersonSearchDataState = {
-    selected: SearchTypes.person,
-    data: [],
-  }
+  let selected: TSearchTypes = SearchTypes.person
+  let data: Array<IMovieSearchResult | IPersonSearchResult> = []
   let loading: boolean = false
-  let eror: string
+  let error: string
   let isFocused = false
   let prevFocused = false
   let dropdownElement: HTMLDivElement
@@ -36,36 +34,37 @@
     timer = setTimeout(async () => {
       if (value) {
         try {
+          error = ''
           loading = true
-          let res = await fetch(
-            `${MOVIE_DB_URL}/search/${dataState.selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${value}`
+          const res = await fetch(
+            `${MOVIE_DB_URL}/search/${selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${value}`
           )
           const json = await (res.json() as Promise<{
-            results: IPersonSearchResult[]
+            results: Array<IPersonSearchResult>
           }>)
-          dataState.data = json.results
+          data = json.results
           loading = false
         } catch (error) {
           loading = false
-          eror = 'Sorry, something went wrong, please try again later.'
+          error = 'Sorry, something went wrong, please try again later.'
         }
       } else {
-        dataState.data = []
+        data = []
       }
     }, 300)
   }
 
   const handleToggle = (e: CustomEvent) => {
     isFocused = false
-    dataState.data = []
-    dataState.selected = e.detail
+    data = []
+    selected = e.detail
   }
   const handleBlur = () => {
     isFocused = false
-    dataState.data = []
+    data = []
   }
   $: placeholder =
-    dataState.selected === 'person'
+    selected === SearchTypes.person
       ? 'person in the film industry'
       : 'movie or series'
 
@@ -105,17 +104,21 @@
         placeholder={!isFocused ? `Search for a ${placeholder}` : ''}
       />
     </div>
-    <SwitchButton selected={dataState.selected} on:toggle={handleToggle} />
+    <SwitchButton {selected} on:toggle={handleToggle} />
     <div bind:this={dropdownElement} class="results-dropdown">
       {#if isFocused}
-        {#if !dataState.data.length}
-          <span in:fade={{ delay: 200 }} class="placeholder"
-            >Search for a {placeholder}</span
-          >
+        {#if !error}
+          {#if !data.length}
+            <span in:fade={{ delay: 200 }} class="placeholder"
+              >Search for a {placeholder}</span
+            >
+          {:else}
+            {#each data as result}
+              <SearchResult {result} />
+            {/each}
+          {/if}
         {:else}
-          {#each dataState.data as result}
-            <SearchResult />
-          {/each}
+          <div>{error}</div>
         {/if}
       {/if}
     </div>

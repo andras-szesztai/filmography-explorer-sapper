@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
   import { IMAGE_ROOT_URL } from '../../../constants/requests'
 
   export let size: 'small' | 'medium' = 'medium'
@@ -7,11 +6,11 @@
   export let alt: string | undefined
 </script>
 
-<div in:fade class={`placeholder ${size}`}>
-  {#if src}
-    <img class={`${size}`} src={`${IMAGE_ROOT_URL}${src}`} {alt} />
-  {/if}
-</div>
+{#if src}
+  <img class={`${size}`} src={`${IMAGE_ROOT_URL}${src}`} {alt} />
+{:else}
+  <div class={`placeholder ${size}`} />
+{/if}
 
 <style lang="scss">
   @import '../../../styles/variables.scss';

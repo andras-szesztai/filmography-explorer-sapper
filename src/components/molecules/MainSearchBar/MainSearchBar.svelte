@@ -5,22 +5,26 @@
   import gsap from 'gsap'
 
   import { Search } from '../../atoms/icons'
-  import { SearchInput, SwitchButton } from '../../atoms'
+  import { SearchInput, SwitchButton, SearchResult } from '../../atoms'
 
   import { MOVIE_DB_URL } from '../../../constants/requests'
 
   import type {
+    IMovieSearchDataState,
+    IPersonSearchDataState,
     IPersonSearchResult,
-    TSearchTypes,
   } from '../../../types/mainSearchResults'
+  import { SearchTypes } from '../../../types/mainSearchResults'
 
   const { session } = stores()
 
   // State
   let value: string
   let timer: number
-  let selected: TSearchTypes = 'person'
-  let data = [] as IPersonSearchResult[]
+  const dataState: IMovieSearchDataState | IPersonSearchDataState = {
+    selected: SearchTypes.person,
+    data: [],
+  }
   let loading: boolean = false
   let eror: string
   let isFocused = false
@@ -34,33 +38,36 @@
         try {
           loading = true
           let res = await fetch(
-            `${MOVIE_DB_URL}/search/${selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${value}`
+            `${MOVIE_DB_URL}/search/${dataState.selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${value}`
           )
           const json = await (res.json() as Promise<{
             results: IPersonSearchResult[]
           }>)
-          data = json.results
+          dataState.data = json.results
           loading = false
         } catch (error) {
-          console.log(error)
+          loading = false
+          eror = 'Sorry, something went wrong, please try again later.'
         }
       } else {
-        data = []
+        dataState.data = []
       }
     }, 300)
   }
 
-  const handleToggle = (e: CustomEvent<TSearchTypes>) => {
+  const handleToggle = (e: CustomEvent) => {
     isFocused = false
-    data = []
-    selected = e.detail
+    dataState.data = []
+    dataState.selected = e.detail
   }
   const handleBlur = () => {
     isFocused = false
-    data = []
+    dataState.data = []
   }
   $: placeholder =
-    selected === 'person' ? 'person in the film industry' : 'movie or series'
+    dataState.selected === 'person'
+      ? 'person in the film industry'
+      : 'movie or series'
 
   afterUpdate(() => {
     if (isFocused && !prevFocused) {
@@ -98,12 +105,18 @@
         placeholder={!isFocused ? `Search for a ${placeholder}` : ''}
       />
     </div>
-    <SwitchButton {selected} on:toggle={handleToggle} />
+    <SwitchButton selected={dataState.selected} on:toggle={handleToggle} />
     <div bind:this={dropdownElement} class="results-dropdown">
-      {#if isFocused && !data.length}
-        <span in:fade={{ delay: 200 }} class="placeholder"
-          >Search for a {placeholder}</span
-        >
+      {#if isFocused}
+        {#if !dataState.data.length}
+          <span in:fade={{ delay: 200 }} class="placeholder"
+            >Search for a {placeholder}</span
+          >
+        {:else}
+          {#each dataState.data as result}
+            <SearchResult />
+          {/each}
+        {/if}
       {/if}
     </div>
     <span class="cover" />

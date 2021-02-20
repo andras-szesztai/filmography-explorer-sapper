@@ -6,6 +6,7 @@
   import { Persons, Movie } from '../../atoms/icons'
 
   import type { TSearchTypes } from '../../../types/mainSearchResults'
+  import { SearchTypes } from '../../../types/mainSearchResults'
 
   // Props
   export let selected: TSearchTypes
@@ -28,7 +29,7 @@
 <div class="switch">
   <button
     aria-label="Toggle to person search"
-    on:click={() => dispatch('toggle', 'person')}
+    on:click={() => dispatch('toggle', SearchTypes.person)}
   >
     <span class="persons-icon">
       <Persons />
@@ -36,7 +37,7 @@
   </button>
   <button
     aria-label="Toggle to movie search"
-    on:click={() => dispatch('toggle', 'movie')}
+    on:click={() => dispatch('toggle', SearchTypes.movie)}
   >
     <span class="movie-icon">
       <Movie />

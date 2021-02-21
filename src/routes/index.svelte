@@ -1,5 +1,8 @@
 <script>
-  import { MainSearchBar } from '../components/organisms'
+  import {
+    MainSearchBar,
+    ExploreDashboard as Dashboard,
+  } from '../components/organisms'
 </script>
 
 <svelte:head>
@@ -7,6 +10,7 @@
 </svelte:head>
 
 <MainSearchBar />
+<Dashboard />
 
 <style lang="scss">
   @import '../styles/variables.scss';

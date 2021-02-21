@@ -11,9 +11,18 @@ import type {
   IPersonDetails,
 } from '../types/person'
 
-const { subscribe, set } = writable({
-  details: {} as IPersonDetails,
-  credits: [] as (IPersonCrewCredits | IPersonCastCredits)[],
+interface IPersonStore {
+  details: {} | IPersonDetails
+  credits: [] | (IPersonCrewCredits | IPersonCastCredits)[]
+  loading: boolean
+  error: string
+}
+
+const { subscribe, set, update } = writable<IPersonStore>({
+  details: {},
+  credits: [],
+  loading: false,
+  error: '',
 })
 interface ICreditArrays {
   crew: Omit<IPersonCrewCredits, 'type'>[]
@@ -65,47 +74,61 @@ function formatData<K extends keyof ICreditArrays>(
 const personStore = {
   subscribe,
   populate: (id: string, apiKey: string) => {
+    update((state) => ({ ...state, loading: true, error: '' }))
     axios
       .all([
         axios.get(
           `${MOVIE_DB_URL}/person/${id}?api_key=${apiKey}&language=en-US`
         ),
-        axios.get(
-          `${MOVIE_DB_URL}/person/${id}/combined_credits?api_key=${apiKey}&language=en-US`
-        ),
+        // axios.get(
+        //   `${MOVIE_DB_URL}/person/${id}/combined_credits?api_key=${apiKey}&language=en-US`
+        // ),
       ])
       .then(
         axios.spread(
-          (personDetails: AxiosResponse, personCredits: AxiosResponse) => {
+          (
+            personDetails: AxiosResponse
+            //  personCredits: AxiosResponse
+          ) => {
             const personDetailsData = personDetails.data as IPersonDetails
-            const personCreditsData = personCredits.data as IPersonCombinedCredits
-            const filteredCrewData: ICreditArrays['crew'] = filterData(
-              'crew',
-              personCreditsData.crew
-            )
-            const filteredCastData: ICreditArrays['cast'] = filterData(
-              'cast',
-              personCreditsData.cast
-            )
-            const formattedCrewData: IPersonCrewCredits[] = formatData(
-              'crew',
-              filteredCrewData
-            )
-            const formattedCastData: IPersonCastCredits[] = formatData(
-              'cast',
-              filteredCastData
-            )
-            const sortedCombinedCredits = [
-              ...formattedCrewData,
-              ...formattedCastData,
-            ].sort((a, b) => b.vote_count - a.vote_count)
+            // const personCreditsData = personCredits.data as IPersonCombinedCredits
+            // const filteredCrewData: ICreditArrays['crew'] = filterData(
+            //   'crew',
+            //   personCreditsData.crew
+            // )
+            // const filteredCastData: ICreditArrays['cast'] = filterData(
+            //   'cast',
+            //   personCreditsData.cast
+            // )
+            // const formattedCrewData: IPersonCrewCredits[] = formatData(
+            //   'crew',
+            //   filteredCrewData
+            // )
+            // const formattedCastData: IPersonCastCredits[] = formatData(
+            //   'cast',
+            //   filteredCastData
+            // )
+            // const sortedCombinedCredits = [
+            //   ...formattedCrewData,
+            //   ...formattedCastData,
+            // ].sort((a, b) => b.vote_count - a.vote_count)
             set({
               details: personDetailsData,
-              credits: sortedCombinedCredits,
+              credits: [],
+              loading: false,
+              error: '',
             })
           }
         )
       )
+      .catch(() => {
+        set({
+          details: {},
+          credits: [],
+          loading: false,
+          error: 'Sorry, something went wrong, please try again later.',
+        })
+      })
   },
 }
 

@@ -19,7 +19,7 @@
   @import '../styles/variables.scss';
   main {
     width: 100vw;
-    padding-top: 1em;
+    height: calc(100vh - 64px);
     margin: 0 auto;
     position: relative;
   }

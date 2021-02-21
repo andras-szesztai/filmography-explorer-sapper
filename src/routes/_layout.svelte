@@ -1,5 +1,10 @@
 <script lang="ts">
+  import { gsap } from 'gsap'
+  import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
   import { NavBar } from '../components/molecules'
+
+  gsap.registerPlugin(ScrollToPlugin)
 
   // export let segment: string
 </script>

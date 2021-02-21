@@ -9,6 +9,7 @@
   on:input
   on:focus
   on:blur
+  on:keydown
   aria-label={placeholder}
   {placeholder}
 />

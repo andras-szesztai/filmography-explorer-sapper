@@ -28,6 +28,30 @@
   let isFocused = false
   let prevFocused = false
   let dropdownElement: HTMLDivElement
+  let activeResult = 0
+
+  afterUpdate(() => {
+    if (isFocused && !prevFocused) {
+      prevFocused = true
+      gsap.to(dropdownElement, {
+        scaleY: 1,
+        transformOrigin: 'top',
+        duration: 0.3,
+        ease: 'power3.inOut',
+      })
+    }
+    if (!isFocused && prevFocused) {
+      prevFocused = false
+      gsap.to(dropdownElement, {
+        scaleY: 0,
+        transformOrigin: 'top',
+        duration: 0.3,
+        delay: 0.4,
+        ease: 'power3.inOut',
+        onComplete: () => (activeResult = 0),
+      })
+    }
+  })
 
   const handleInput = () => {
     clearTimeout(timer)
@@ -53,40 +77,45 @@
       }
     }, 300)
   }
-
   const handleToggle = (e: CustomEvent) => {
     isFocused = false
+    activeResult = 0
     data = []
     selected = e.detail
   }
   const handleBlur = () => {
     isFocused = false
   }
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const key = e.key
+    if (data.length && isFocused) {
+      const dataLength = data.length
+      if (key === 'ArrowDown') {
+        if (activeResult !== dataLength - 1) {
+          activeResult = activeResult + 1
+        } else {
+          activeResult = 0
+        }
+      }
+      if (key === 'ArrowUp') {
+        if (activeResult === 0) {
+          activeResult = dataLength - 1
+        } else {
+          activeResult = activeResult - 1
+        }
+      }
+      gsap.to(dropdownElement, {
+        duration: 0.4,
+        ease: 'power2.inOut',
+        scrollTo: activeResult * 83,
+      })
+    }
+  }
+
   $: placeholder =
     selected === SearchTypes.person
       ? 'person in the film industry'
       : 'movie or series'
-
-  afterUpdate(() => {
-    if (isFocused && !prevFocused) {
-      prevFocused = true
-      gsap.to(dropdownElement, {
-        scaleY: 1,
-        transformOrigin: 'top',
-        duration: 0.3,
-        ease: 'power3.inOut',
-      })
-    }
-    if (!isFocused && prevFocused) {
-      prevFocused = false
-      gsap.to(dropdownElement, {
-        scaleY: 0,
-        transformOrigin: 'top',
-        duration: 0.3,
-        ease: 'power3.inOut',
-      })
-    }
-  })
 </script>
 
 <div class="absolute-container">
@@ -100,6 +129,7 @@
         on:input={handleInput}
         on:focus={() => (isFocused = true)}
         on:blur={handleBlur}
+        on:keydown={handleKeyDown}
         placeholder={!isFocused ? `Search for a ${placeholder}` : ''}
       />
     </div>
@@ -122,6 +152,8 @@
                   {result}
                   marginBottom={index < data.length - 1}
                   {index}
+                  isActive={activeResult === index}
+                  on:mouseenter={() => (activeResult = index)}
                 />
               {/each}
             </div>
@@ -187,8 +219,6 @@
     padding: 8px 16px;
 
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
 
     width: 400px;
     height: 200px;
@@ -205,7 +235,7 @@
       font-weight: $normal;
       font-size: $fs-h6;
       color: $colorLight;
-      padding-left: 21px;
+      padding-left: 36px;
     }
   }
 

@@ -6,21 +6,21 @@ import { CEREMONIES } from '../constants/data'
 
 import type {
   IPersonCastCredits,
-  IPersonCombinedCredits,
+  // IPersonCombinedCredits,
   IPersonCrewCredits,
   IPersonDetails,
 } from '../types/person'
 
 interface IPersonStore {
-  details: {} | IPersonDetails
-  credits: [] | (IPersonCrewCredits | IPersonCastCredits)[]
+  details?: IPersonDetails
+  credits?: (IPersonCrewCredits | IPersonCastCredits)[]
   loading: boolean
   error: string
 }
 
 const { subscribe, set, update } = writable<IPersonStore>({
-  details: {},
-  credits: [],
+  details: undefined,
+  credits: undefined,
   loading: false,
   error: '',
 })
@@ -74,7 +74,7 @@ function formatData<K extends keyof ICreditArrays>(
 const personStore = {
   subscribe,
   populate: (id: string, apiKey: string) => {
-    update((state) => ({ ...state, loading: true, error: '' }))
+    // update((state) => ({ ...state, loading: true, error: '' }))
     axios
       .all([
         axios.get(
@@ -123,8 +123,8 @@ const personStore = {
       )
       .catch(() => {
         set({
-          details: {},
-          credits: [],
+          details: undefined,
+          credits: undefined,
           loading: false,
           error: 'Sorry, something went wrong, please try again later.',
         })

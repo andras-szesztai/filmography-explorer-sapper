@@ -120,8 +120,11 @@
     }
   }
   const handleSearch = (id: string) => {
-    searchString = ''
     personStore.populate(id, apiKey)
+    isFocused = false
+    searchString = ''
+    activeResult = 0
+    data = []
   }
 
   $: placeholder =

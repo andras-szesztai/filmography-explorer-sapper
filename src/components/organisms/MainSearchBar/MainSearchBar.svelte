@@ -10,6 +10,8 @@
 
   import { MOVIE_DB_URL } from '../../../constants/requests'
 
+  import personStore from '../../../stores/personStore'
+
   import type {
     IMovieSearchResult,
     IPersonSearchResult,
@@ -18,6 +20,7 @@
   import { SearchTypes } from '../../../types/mainSearchResults'
 
   const { session } = stores()
+  const apiKey = $session.MOVIE_DB_API_KEY
 
   // State
   let searchString: string
@@ -118,8 +121,7 @@
   }
   const handleSearch = (id: string) => {
     searchString = ''
-    // TODO: set up store and fetch details
-    console.log(id)
+    personStore.populate(id, apiKey)
   }
 
   $: placeholder =
@@ -159,7 +161,7 @@
                 >
               {/if}
             {:else}
-              <span in:fade class="placeholder">Loading..</span>
+              <span in:fade class="placeholder">Loading...</span>
             {/if}
           {:else}
             <div class="results-container">

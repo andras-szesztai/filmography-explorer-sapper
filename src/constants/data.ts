@@ -1,0 +1,16 @@
+export const CEREMONIES = [
+  'The Academy Awards',
+  'Golden Globe Awards',
+  'Tony Awards',
+  'Saturday Night Live',
+  'MTV Video Music Awards',
+  "Kids' Choice Awards",
+  'Great Performances',
+  'Today',
+  'Fantastic',
+  'Good Morning America',
+  'CBS News Sunday Morning',
+  "Critics' Choice Movie Awards",
+  'The Graham Norton Show',
+  'The Bill Engvall Show',
+]

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { IMAGE_ROOT_URL } from '../../../constants/requests'
 
-  export let size: 'small' | 'medium' = 'medium'
+  export let size: 'small' | 'medium' | 'large' = 'medium'
   export let src: string | undefined
   export let alt: string | undefined
 </script>
@@ -21,5 +21,17 @@
     height: 60px;
     width: 40px;
     border-radius: 3px;
+  }
+
+  .medium {
+    height: 90px;
+    /* width: 5px; */
+    border-radius: 6px;
+  }
+
+  .large {
+    height: 132px;
+    width: 88px;
+    border-radius: 5px;
   }
 </style>

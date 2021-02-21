@@ -11,7 +11,7 @@ export interface IPersonDetails {
   biography?: string
   birthday?: string // YYYY-MM-DD
   deathday?: string
-  gender?: 1 | 2
+  gender?: number
   place_of_birth?: string
   popularity?: number
   profile_path?: string

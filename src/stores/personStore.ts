@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 
 import { MOVIE_DB_URL } from '../constants/requests'
 import { CEREMONIES } from '../constants/data'
+import detailsExample from '../data/personDetailExample'
 
 import type {
   IPersonCastCredits,
@@ -19,7 +20,7 @@ interface IPersonStore {
 }
 
 const { subscribe, set, update } = writable<IPersonStore>({
-  details: undefined,
+  details: detailsExample,
   credits: undefined,
   loading: false,
   error: '',

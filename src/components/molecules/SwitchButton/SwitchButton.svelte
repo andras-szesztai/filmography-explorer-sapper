@@ -43,7 +43,7 @@
       <Movie />
     </span>
   </button>
-  <span class="active" bind:this={spanElement} />
+  <span class={`active ${selected}`} bind:this={spanElement} />
 </div>
 
 <style lang="scss">

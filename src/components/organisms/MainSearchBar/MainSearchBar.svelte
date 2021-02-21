@@ -5,7 +5,8 @@
   import gsap from 'gsap'
 
   import { Search } from '../../atoms/icons'
-  import { SearchInput, SwitchButton, SearchResult } from '../../atoms'
+  import { SearchInput } from '../../atoms'
+  import { SwitchButton, SearchResult } from '../../molecules'
 
   import { MOVIE_DB_URL } from '../../../constants/requests'
 
@@ -46,7 +47,7 @@
         scaleY: 0,
         transformOrigin: 'top',
         duration: 0.3,
-        delay: 0.4,
+        delay: data.length ? 0.4 : 0,
         ease: 'power3.inOut',
         onComplete: () => (activeResult = 0),
       })
@@ -79,6 +80,7 @@
   }
   const handleToggle = (e: CustomEvent) => {
     isFocused = false
+    value = ''
     activeResult = 0
     data = []
     selected = e.detail
@@ -115,6 +117,7 @@
     }
   }
   const handleSearch = (id: string) => {
+    // TODO: set up store and fetch details
     console.log(id)
   }
 

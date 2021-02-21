@@ -1,5 +1,5 @@
 <script>
-  import { MainSearchBar } from '../components/molecules'
+  import { MainSearchBar } from '../components/organisms'
 </script>
 
 <svelte:head>

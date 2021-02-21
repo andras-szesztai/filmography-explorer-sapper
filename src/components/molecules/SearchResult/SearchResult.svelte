@@ -2,8 +2,8 @@
   import { fade, fly } from 'svelte/transition'
   import { cubicOut, cubicIn } from 'svelte/easing'
 
-  import Image from '../Image/Image.svelte'
-  import ArrowRight from '../icons/ArrowRight/ArrowRight.svelte'
+  import { Image } from '../../atoms'
+  import { ArrowRight } from '../../atoms/icons'
 
   import type {
     IPersonSearchResult,

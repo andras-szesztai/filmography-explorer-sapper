@@ -2,9 +2,9 @@
   import personStore from '../../../stores/personStore'
 
   $: store = $personStore
-  $: loading = store.loading
+  // $: loading = store.loading
   $: details = store.details
-  $: error = store.error
+  // $: error = store.error
 </script>
 
 {#if details}

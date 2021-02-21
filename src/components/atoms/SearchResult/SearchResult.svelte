@@ -11,7 +11,6 @@
   } from '../../../types/mainSearchResults'
 
   export let result: IMovieSearchResult | IPersonSearchResult
-  export let marginBottom: boolean = false
   export let index: number
   export let isActive: boolean = false
 
@@ -20,7 +19,7 @@
 
 <button
   in:fade={{ delay }}
-  class={`result-container ${marginBottom && 'margin-bottom'}`}
+  class="result-container"
   on:mouseenter
   on:mouseleave
   on:click
@@ -64,6 +63,7 @@
     </div>
   {/if}
 </button>
+<div class="spacer" />
 
 <style lang="scss">
   @import '../../../styles/variables.scss';
@@ -107,9 +107,6 @@
       }
     }
   }
-  .margin-bottom {
-    margin-bottom: 8px;
-  }
 
   .active {
     position: absolute;
@@ -132,5 +129,9 @@
       text-align: left;
       color: $colorLight;
     }
+  }
+  .spacer {
+    min-height: 8px;
+    background-color: transparent;
   }
 </style>

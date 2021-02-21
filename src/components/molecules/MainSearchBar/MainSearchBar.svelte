@@ -109,7 +109,13 @@
         ease: 'power2.inOut',
         scrollTo: activeResult * 83,
       })
+      if (key === 'Enter' || key === 'Space') {
+        handleSearch(data[activeResult].id)
+      }
     }
+  }
+  const handleSearch = (id: string) => {
+    console.log(id)
   }
 
   $: placeholder =
@@ -139,7 +145,7 @@
         {#if !error}
           {#if !data.length}
             {#if !loading}
-              <span in:fade={{ delay: 200 }} class="placeholder"
+              <span in:fade={{ delay: 300 }} class="placeholder"
                 >Search for a {placeholder}</span
               >
             {:else}
@@ -150,10 +156,10 @@
               {#each data as result, index}
                 <SearchResult
                   {result}
-                  marginBottom={index < data.length - 1}
                   {index}
                   isActive={activeResult === index}
                   on:mouseenter={() => (activeResult = index)}
+                  on:click={() => handleSearch(data[activeResult].id)}
                 />
               {/each}
             </div>
@@ -232,6 +238,7 @@
     transform: scaleY(0);
 
     .placeholder {
+      position: absolute;
       font-weight: $normal;
       font-size: $fs-h6;
       color: $colorLight;

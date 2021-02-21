@@ -20,7 +20,7 @@
   const { session } = stores()
 
   // State
-  let value: string
+  let searchString: string
   let timer: number
   let selected: TSearchTypes = SearchTypes.person
   let data: Array<IMovieSearchResult | IPersonSearchResult> = []
@@ -57,12 +57,12 @@
   const handleInput = () => {
     clearTimeout(timer)
     timer = setTimeout(async () => {
-      if (value) {
+      if (searchString) {
         try {
           error = ''
           loading = true
           const res = await fetch(
-            `${MOVIE_DB_URL}/search/${selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${value}`
+            `${MOVIE_DB_URL}/search/${selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${searchString}`
           )
           const json = await (res.json() as Promise<{
             results: Array<IPersonSearchResult>
@@ -80,7 +80,7 @@
   }
   const handleToggle = (e: CustomEvent) => {
     isFocused = false
-    value = ''
+    searchString = ''
     activeResult = 0
     data = []
     selected = e.detail
@@ -117,6 +117,7 @@
     }
   }
   const handleSearch = (id: string) => {
+    searchString = ''
     // TODO: set up store and fetch details
     console.log(id)
   }
@@ -134,7 +135,7 @@
     </span>
     <div class="search-input">
       <SearchInput
-        bind:value
+        bind:value={searchString}
         on:input={handleInput}
         on:focus={() => (isFocused = true)}
         on:blur={handleBlur}
@@ -148,9 +149,15 @@
         {#if !error}
           {#if !data.length}
             {#if !loading}
-              <span in:fade={{ delay: 300 }} class="placeholder"
-                >Search for a {placeholder}</span
-              >
+              {#if !searchString}
+                <span in:fade={{ delay: 300 }} class="placeholder"
+                  >Search for a {placeholder}</span
+                >
+              {:else}
+                <span in:fade={{ delay: 800 }} class="placeholder"
+                  >Sorry, no results found</span
+                >
+              {/if}
             {:else}
               <span in:fade class="placeholder">Loading..</span>
             {/if}
@@ -182,6 +189,10 @@
     position: absolute;
     top: 24px;
     left: 24px;
+    @media (max-width: $breakpoint-mobile) {
+      top: 12px;
+      left: 12px;
+    }
   }
 
   .main-search-container {
@@ -192,6 +203,11 @@
 
     padding: 8px 16px;
     border-radius: 4px;
+
+    @media (max-width: $breakpoint-mobile) {
+      width: 320px;
+      padding: 4px 8px;
+    }
 
     border: 2px solid darken($colorSecondary, 5%);
 

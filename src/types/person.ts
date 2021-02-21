@@ -20,8 +20,11 @@ export interface IPersonDetails {
 export interface IPersonCastCredits {
   id: number
   credit_id: string
-  name: string
-  type: TCredit
+  type: 'cast'
+  vote_count: number
+  vote_average: number
+  name?: string
+  title?: string
   media_type?: TMedia
   original_language?: string
   episode_count?: number
@@ -32,8 +35,6 @@ export interface IPersonCastCredits {
   poster_path?: string
   first_air_date?: string
   release_date?: string
-  vote_average?: number
-  vote_count?: number
   character?: string
   backdrop_path?: string
   popularity?: number
@@ -42,7 +43,9 @@ export interface IPersonCastCredits {
 export interface IPersonCrewCredits {
   id: number
   credit_id: string
-  type: TCredit
+  type: 'crew'
+  vote_count: number
+  vote_average: number
   department?: string
   original_language?: string
   episode_count?: number
@@ -50,14 +53,13 @@ export interface IPersonCrewCredits {
   overview?: string
   origin_country?: string[]
   original_name?: string
-  vote_count?: number
   name?: string
+  title?: string
   media_type?: TMedia
   popularity?: number
   backdrop_path?: string
   first_air_date?: string
   release_date?: string
-  vote_average?: number
   genre_ids?: number[]
   poster_path?: string
 }

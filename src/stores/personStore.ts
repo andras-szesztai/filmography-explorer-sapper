@@ -2,12 +2,65 @@ import { writable } from 'svelte/store'
 import axios, { AxiosResponse } from 'axios'
 
 import { MOVIE_DB_URL } from '../constants/requests'
+import { CEREMONIES } from '../constants/data'
 
-import type { IPersonCombinedCredits, IPersonDetails } from '../types/person'
+import type {
+  IPersonCastCredits,
+  IPersonCombinedCredits,
+  IPersonCrewCredits,
+  IPersonDetails,
+} from '../types/person'
 
 const { subscribe, set } = writable({
   details: {} as IPersonDetails,
+  credits: [] as (IPersonCrewCredits | IPersonCastCredits)[],
 })
+interface ICreditArrays {
+  crew: Omit<IPersonCrewCredits, 'type'>[]
+  cast: Omit<IPersonCastCredits, 'type'>[]
+}
+
+const sharedFilterLogic = (d: IPersonCrewCredits | IPersonCastCredits) => {
+  return (
+    (!!d.release_date || !!d.first_air_date) &&
+    !!d.vote_count &&
+    !!d.vote_average &&
+    d.vote_average !== 10 &&
+    d.vote_average !== 0 &&
+    (d.name ? !CEREMONIES.includes(d.name) : true)
+  )
+}
+
+function filterData<K extends keyof ICreditArrays>(
+  method: K,
+  array?: ICreditArrays[K]
+) {
+  if (array) {
+    if (method === 'crew') {
+      return (array as IPersonCrewCredits[]).filter(
+        (d) => sharedFilterLogic(d) && d.job
+      )
+    } else {
+      return (array as IPersonCastCredits[]).filter(
+        (d) =>
+          sharedFilterLogic(d) &&
+          d.character &&
+          !d.character.toLowerCase().match(/(himself|herself|archive)/)
+      )
+    }
+  }
+  return []
+}
+
+function formatData<K extends keyof ICreditArrays>(
+  method: K,
+  array: ICreditArrays[K]
+) {
+  return (array as (
+    | Omit<IPersonCrewCredits, 'type'>
+    | Omit<IPersonCastCredits, 'type'>
+  )[]).map((d) => ({ ...d, type: method }))
+}
 
 const personStore = {
   subscribe,
@@ -26,6 +79,30 @@ const personStore = {
           (personDetails: AxiosResponse, personCredits: AxiosResponse) => {
             const personDetailsData = personDetails.data as IPersonDetails
             const personCreditsData = personCredits.data as IPersonCombinedCredits
+            const filteredCrewData: ICreditArrays['crew'] = filterData(
+              'crew',
+              personCreditsData.crew
+            )
+            const filteredCastData: ICreditArrays['cast'] = filterData(
+              'cast',
+              personCreditsData.cast
+            )
+            const formattedCrewData: IPersonCrewCredits[] = formatData(
+              'crew',
+              filteredCrewData
+            )
+            const formattedCastData: IPersonCastCredits[] = formatData(
+              'cast',
+              filteredCastData
+            )
+            const sortedCombinedCredits = [
+              ...formattedCrewData,
+              ...formattedCastData,
+            ].sort((a, b) => b.vote_count - a.vote_count)
+            set({
+              details: personDetailsData,
+              credits: sortedCombinedCredits,
+            })
           }
         )
       )

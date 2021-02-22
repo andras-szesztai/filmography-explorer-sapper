@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PersonDetailsCard } from './../../molecules'
+  import { PersonDetailsCard } from '../../organisms'
 </script>
 
 <section>

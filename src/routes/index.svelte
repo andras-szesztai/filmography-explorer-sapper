@@ -1,8 +1,6 @@
 <script>
-  import {
-    MainSearchBar,
-    ExploreDashboard as Dashboard,
-  } from '../components/organisms'
+  import { MainSearchBar } from '../components/organisms'
+  import { ExploreDashboard as Dashboard } from '../components/templates'
 </script>
 
 <svelte:head>

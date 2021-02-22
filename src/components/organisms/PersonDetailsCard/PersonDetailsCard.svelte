@@ -21,11 +21,11 @@
       <h1>
         {details.name}
       </h1>
-      <button class="icon">
+      <button aria-label={`Mark ${details.name} as favorite`} class="icon">
         <Star />
       </button>
     </div>
-    <div class="desc">
+    <div tabindex="0" class="desc">
       <p>
         {details.biography}
       </p>

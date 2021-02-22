@@ -21,9 +21,9 @@
       <h1>
         {details.name}
       </h1>
-      <span>
+      <button class="icon">
         <Star />
-      </span>
+      </button>
     </div>
     <div class="desc">
       <p>
@@ -33,6 +33,7 @@
   </div>
 {/if}
 
+<!-- TODO: UPDATE When Logged in -->
 <style lang="scss">
   @import '../../../styles/variables.scss';
 
@@ -62,17 +63,30 @@
     grid-area: name;
     display: flex;
     align-items: center;
-
     h1 {
+      max-width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-size: $fs-h1;
       line-height: 1.15;
       font-weight: $semibold;
       color: $colorPrimary;
     }
+  }
 
-    span {
-      margin-left: 8px;
-      transform: translateY(1px);
+  .icon {
+    margin-left: 12px;
+    transform: translateY(1px);
+    border: none;
+    background: transparent;
+    cursor: not-allowed;
+
+    &:focus-visible {
+      border: 1px solid darken($colorSecondary, 5%);
+    }
+    &:focus {
+      outline: none;
     }
   }
 
@@ -90,6 +104,10 @@
     }
   }
 
+  ::selection {
+    color: $colorPrimary;
+    background: $colorSecondary;
+  }
   ::-webkit-scrollbar {
     width: 8px;
   }

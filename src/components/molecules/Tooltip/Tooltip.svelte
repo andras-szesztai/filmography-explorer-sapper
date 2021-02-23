@@ -1,9 +1,10 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
 
+  export let topOffset: number
   let isHovered = false
-  let width: number
-  let height: number
+  // let width: number
+  // let height: number
 
   // bind:offsetWidth={width}
   // bind:offsetHeight={height}
@@ -19,7 +20,7 @@
     <div
       transition:fade={{ duration: 200 }}
       class="absolute-container"
-      style="top: -12px"
+      style="top: -{topOffset}px"
     >
       <div class="arrow-container">
         <slot name="content" />
@@ -38,8 +39,8 @@
   .absolute-container {
     position: absolute;
     background: $colorLight;
-    padding: 8px;
-    border-radius: 4px;
+    padding: 4px 8px;
+    border-radius: 3px;
     left: calc(12px + 100%);
     filter: drop-shadow(1px 1px 2px rgba($colorPrimary, 0.6));
     pointer-events: none;

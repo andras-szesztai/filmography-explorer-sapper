@@ -20,18 +20,18 @@
   .small {
     height: 60px;
     width: 40px;
-    border-radius: 3px;
+    border-radius: 2px;
   }
 
   .medium {
     height: 90px;
     /* width: 5px; */
-    border-radius: 6px;
+    border-radius: 3;
   }
 
   .large {
     height: 132px;
     width: 88px;
-    border-radius: 5px;
+    border-radius: 3px;
   }
 </style>

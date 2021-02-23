@@ -2,7 +2,11 @@
 </script>
 
 <div class="container">
-  <p>You need to be logged in to favorite!</p>
+  <p>
+    You have to
+    <span> login </span>
+    to be able to favorite!
+  </p>
 </div>
 
 <style lang="scss">
@@ -15,6 +19,13 @@
       font-size: $fs-milli;
       font-weight: $semibold;
       color: $colorPrimary;
+
+      span {
+        background-color: $colorSecondary;
+        color: $colorLight;
+        padding: 1px 8px;
+        border-radius: 2px;
+      }
     }
   }
 </style>

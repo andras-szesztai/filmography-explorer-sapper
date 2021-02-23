@@ -89,6 +89,11 @@
     }
   }
 
+  ::selection {
+    color: $colorPrimary;
+    background: $colorSecondary;
+  }
+
   .active {
     color: $colorSecondary;
   }

@@ -24,7 +24,7 @@
         {details.name}
       </h1>
       <button aria-label={`Mark ${details.name} as favorite`} class="icon">
-        <Tooltip>
+        <Tooltip topOffset={10}>
           <Star />
           <div slot="content"><LoginToFavorite /></div>
         </Tooltip>
@@ -57,7 +57,7 @@
       'image name'
       'image desc';
 
-    border-radius: 6px;
+    border-radius: 4px;
   }
 
   .photo {
@@ -98,7 +98,7 @@
   .desc {
     grid-area: desc;
     background: $colorPrimary;
-    border-radius: 5px;
+    border-radius: 3px;
     padding: 6px 8px;
     overflow-y: scroll;
 

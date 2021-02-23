@@ -69,4 +69,9 @@
       margin-left: 0px;
     }
   }
+
+  ::selection {
+    color: $colorPrimary;
+    background: $colorSecondary;
+  }
 </style>

@@ -14,29 +14,39 @@
   $: error = store.error
 </script>
 
-{#if details}
+{#if details || loading}
   <div in:fade class="container">
-    <!-- <div class="photo">
-      <Image src={details.profile_path} alt="" size="large" />
-    </div> -->
-    <SkeletonLoader place="photo" />
-    <!-- <SkeletonLoader place="name" /> -->
-    <!-- <SkeletonLoader place="desc" /> -->
-    <!-- <h1>
-        {details.name}
-      </h1>
-      <button aria-label={`Mark ${details.name} as favorite`} class="icon">
-        <Tooltip topOffset={10}>
-          <Star />
-          <div slot="content"><LoginToFavorite /></div>
-        </Tooltip>
-      </button> -->
-
-    <!-- <div tabindex="0" class="desc">
-      <p>
-        {details.biography}
-      </p>
-    </div> -->
+    {#if !error}
+      {#if loading}
+        <SkeletonLoader place="photo" />
+        <SkeletonLoader place="name" />
+        <SkeletonLoader place="desc" />
+      {:else if details}
+        <div class="photo">
+          <Image src={details.profile_path} alt="" size="large" />
+        </div>
+        <div class="name">
+          <h1>
+            {details.name}
+          </h1>
+          <button aria-label={`Mark ${details.name} as favorite`} class="icon">
+            <Tooltip topOffset={10}>
+              <Star />
+              <div slot="content"><LoginToFavorite /></div>
+            </Tooltip>
+          </button>
+        </div>
+        <div tabindex="0" class="desc">
+          <p>
+            {details.biography}
+          </p>
+        </div>
+      {/if}
+    {:else}
+      <div class="name">
+        Sorry, something went wrong, please try again later.
+      </div>
+    {/if}
   </div>
 {/if}
 
@@ -54,7 +64,7 @@
     grid-template-columns: 88px 1fr;
     column-gap: 16px;
     grid-template-rows: min-content 1fr;
-    row-gap: 4px;
+    row-gap: 8px;
     grid-template-areas:
       'photo name'
       'photo desc';

@@ -20,7 +20,7 @@ interface IPersonStore {
 }
 
 const { subscribe, set, update } = writable<IPersonStore>({
-  details: detailsExample,
+  details: undefined,
   credits: undefined,
   loading: false,
   error: '',
@@ -75,7 +75,7 @@ function formatData<K extends keyof ICreditArrays>(
 const personStore = {
   subscribe,
   populate: (id: string, apiKey: string) => {
-    // update((state) => ({ ...state, loading: true, error: '' }))
+    update((state) => ({ ...state, loading: true, error: '' }))
     axios
       .all([
         axios.get(

@@ -20,7 +20,7 @@
     display: grid;
 
     grid-template-columns: 1fr 444px;
-    column-gap: 32px;
+    column-gap: 24px;
     grid-template-rows: repeat(2, 70px) 1fr 50px;
     row-gap: 24px;
     grid-template-areas:

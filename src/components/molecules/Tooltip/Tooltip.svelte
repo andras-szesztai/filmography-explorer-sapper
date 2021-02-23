@@ -3,11 +3,6 @@
 
   export let topOffset: number
   let isHovered = false
-  // let width: number
-  // let height: number
-
-  // bind:offsetWidth={width}
-  // bind:offsetHeight={height}
 </script>
 
 <div

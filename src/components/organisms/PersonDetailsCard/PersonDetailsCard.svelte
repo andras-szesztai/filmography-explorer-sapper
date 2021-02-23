@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
 
-  import { Image } from '../../atoms'
+  import { Image, SkeletonLoader } from '../../atoms'
   import { Star } from '../../atoms/icons'
   import { LoginToFavorite } from '../../atoms/tooltipContents'
   import { Tooltip } from '../../molecules'
@@ -9,18 +9,20 @@
   import personStore from '../../../stores/personStore'
 
   $: store = $personStore
-  // $: loading = store.loading
+  $: loading = store.loading
   $: details = store.details
-  // $: error = store.error
+  $: error = store.error
 </script>
 
 {#if details}
   <div in:fade class="container">
-    <div class="photo">
+    <!-- <div class="photo">
       <Image src={details.profile_path} alt="" size="large" />
-    </div>
-    <div class="name">
-      <h1>
+    </div> -->
+    <SkeletonLoader place="photo" />
+    <!-- <SkeletonLoader place="name" /> -->
+    <!-- <SkeletonLoader place="desc" /> -->
+    <!-- <h1>
         {details.name}
       </h1>
       <button aria-label={`Mark ${details.name} as favorite`} class="icon">
@@ -28,13 +30,13 @@
           <Star />
           <div slot="content"><LoginToFavorite /></div>
         </Tooltip>
-      </button>
-    </div>
-    <div tabindex="0" class="desc">
+      </button> -->
+
+    <!-- <div tabindex="0" class="desc">
       <p>
         {details.biography}
       </p>
-    </div>
+    </div> -->
   </div>
 {/if}
 
@@ -54,14 +56,14 @@
     grid-template-rows: min-content 1fr;
     row-gap: 4px;
     grid-template-areas:
-      'image name'
-      'image desc';
+      'photo name'
+      'photo desc';
 
     border-radius: 4px;
   }
 
   .photo {
-    grid-area: image;
+    grid-area: photo;
   }
 
   .name {

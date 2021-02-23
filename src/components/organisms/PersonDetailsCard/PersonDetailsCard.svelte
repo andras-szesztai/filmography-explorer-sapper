@@ -3,6 +3,8 @@
 
   import { Image } from '../../atoms'
   import { Star } from '../../atoms/icons'
+  import { LoginToFavorite } from '../../atoms/tooltipContents'
+  import { Tooltip } from '../../molecules'
 
   import personStore from '../../../stores/personStore'
 
@@ -22,7 +24,10 @@
         {details.name}
       </h1>
       <button aria-label={`Mark ${details.name} as favorite`} class="icon">
-        <Star />
+        <Tooltip>
+          <Star />
+          <div slot="content"><LoginToFavorite /></div>
+        </Tooltip>
       </button>
     </div>
     <div tabindex="0" class="desc">
@@ -64,7 +69,7 @@
     display: flex;
     align-items: center;
     h1 {
-      max-width: 250px;
+      max-width: 260px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -76,7 +81,7 @@
   }
 
   .icon {
-    margin-left: 12px;
+    margin-left: 8px;
     transform: translateY(1px);
     border: none;
     background: transparent;
@@ -96,6 +101,13 @@
     border-radius: 5px;
     padding: 6px 8px;
     overflow-y: scroll;
+
+    &:focus-visible {
+      border: 2px solid darken($colorSecondary, 5%);
+    }
+    &:focus {
+      outline: none;
+    }
 
     p {
       font-size: $fs-milli;

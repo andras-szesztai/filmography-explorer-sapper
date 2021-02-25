@@ -1,12 +1,16 @@
 <script lang="ts">
-  import { PersonDetailsCard } from '../../organisms'
+  import {
+    PersonDetailsCard,
+    MovieDetailsCard,
+    MainChart,
+  } from '../../organisms'
 </script>
 
 <section>
   <PersonDetailsCard />
+  <MovieDetailsCard />
   <div class="filter" />
-  <div class="movie" />
-  <div class="chart" />
+  <MainChart />
   <div class="quick" />
   <div class="info" />
 </section>
@@ -16,8 +20,8 @@
 
   section {
     height: 100%;
-    padding: 24px;
     display: grid;
+    padding: 24px;
 
     grid-template-columns: 1fr 444px;
     column-gap: 24px;
@@ -36,14 +40,6 @@
 
   .filter {
     grid-area: filter;
-  }
-
-  .chart {
-    grid-area: chart;
-  }
-
-  .movie {
-    grid-area: movie;
   }
 
   .quick {

@@ -8,78 +8,42 @@
 
   import personStore from '../../../stores/personStore'
 
-  $: store = $personStore
-  $: loading = store.loading
-  $: details = store.details
-  $: error = store.error
+  $: currPerson = $personStore.details
+  // $: loading = store.loading
+  // $: details = store.details
+  // $: error = store.error
 </script>
 
-{#if details || loading}
-  <div in:fade class="container">
-    {#if !error}
-      {#if loading}
-        <SkeletonLoader place="photo" />
-        <SkeletonLoader place="name" />
-        <SkeletonLoader place="desc" />
-      {:else if details}
-        <div in:fade={{ delay: 100 }} class="photo">
-          <Image src={details.profile_path} alt="" size="large" />
-        </div>
-        <div in:fade={{ delay: 100 }} class="name">
-          <TooltipBottom topOffset={4}>
-            <h1>
-              {details.name}
-            </h1>
-            <span slot="content">{details.name}</span>
-          </TooltipBottom>
-          <button aria-label={`Mark ${details.name} as favorite`} class="icon">
-            <TooltipBottom topOffset={4}>
-              <Star />
-              <div slot="content"><LoginToFavorite /></div>
-            </TooltipBottom>
-          </button>
-        </div>
-        <div in:fade={{ delay: 100 }} tabindex="0" class="desc">
-          <p>
-            {details.biography}
-          </p>
-        </div>
-      {/if}
-    {:else}
-      <div class="name">
-        Sorry, something went wrong, please try again later.
-      </div>
-    {/if}
-  </div>
-{/if}
+<div in:fade class="container">
+  <div>MovieCard</div>
+</div>
 
 <!-- TODO: UPDATE When Logged in -->
 <style lang="scss">
   @import '../../../styles/variables.scss';
 
   .container {
-    grid-area: person;
+    grid-area: movie;
     background-color: $colorLight;
 
     padding: 16px;
+    border-radius: 4px;
 
-    display: grid;
+    /* display: grid;
     grid-template-columns: 88px 1fr;
     column-gap: 16px;
     grid-template-rows: min-content 1fr;
     row-gap: 8px;
     grid-template-areas:
       'photo name'
-      'photo desc';
-
-    border-radius: 4px;
+      'photo desc'; */
   }
 
-  .photo {
+  /* .photo {
     grid-area: photo;
-  }
+  } */
 
-  .name {
+  /* .name {
     grid-area: name;
     display: flex;
     align-items: center;
@@ -129,7 +93,7 @@
       font-weight: $light;
       color: $colorLight;
     }
-  }
+  } */
 
   ::selection {
     color: $colorPrimary;

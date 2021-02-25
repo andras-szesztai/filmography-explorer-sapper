@@ -7,6 +7,7 @@ import detailsExample from '../data/personDetailExample'
 
 import type {
   IPersonCastCredits,
+  IPersonCombinedCredits,
   // IPersonCombinedCredits,
   IPersonCrewCredits,
   IPersonDetails,
@@ -81,41 +82,38 @@ const personStore = {
         axios.get(
           `${MOVIE_DB_URL}/person/${id}?api_key=${apiKey}&language=en-US`
         ),
-        // axios.get(
-        //   `${MOVIE_DB_URL}/person/${id}/combined_credits?api_key=${apiKey}&language=en-US`
-        // ),
+        axios.get(
+          `${MOVIE_DB_URL}/person/${id}/combined_credits?api_key=${apiKey}&language=en-US`
+        ),
       ])
       .then(
         axios.spread(
-          (
-            personDetails: AxiosResponse
-            //  personCredits: AxiosResponse
-          ) => {
+          (personDetails: AxiosResponse, personCredits: AxiosResponse) => {
             const personDetailsData = personDetails.data as IPersonDetails
-            // const personCreditsData = personCredits.data as IPersonCombinedCredits
-            // const filteredCrewData: ICreditArrays['crew'] = filterData(
-            //   'crew',
-            //   personCreditsData.crew
-            // )
-            // const filteredCastData: ICreditArrays['cast'] = filterData(
-            //   'cast',
-            //   personCreditsData.cast
-            // )
-            // const formattedCrewData: IPersonCrewCredits[] = formatData(
-            //   'crew',
-            //   filteredCrewData
-            // )
-            // const formattedCastData: IPersonCastCredits[] = formatData(
-            //   'cast',
-            //   filteredCastData
-            // )
-            // const sortedCombinedCredits = [
-            //   ...formattedCrewData,
-            //   ...formattedCastData,
-            // ].sort((a, b) => b.vote_count - a.vote_count)
+            const personCreditsData = personCredits.data as IPersonCombinedCredits
+            const filteredCrewData: ICreditArrays['crew'] = filterData(
+              'crew',
+              personCreditsData.crew
+            )
+            const filteredCastData: ICreditArrays['cast'] = filterData(
+              'cast',
+              personCreditsData.cast
+            )
+            const formattedCrewData: IPersonCrewCredits[] = formatData(
+              'crew',
+              filteredCrewData
+            )
+            const formattedCastData: IPersonCastCredits[] = formatData(
+              'cast',
+              filteredCastData
+            )
+            const sortedCombinedCredits = [
+              ...formattedCrewData,
+              ...formattedCastData,
+            ].sort((a, b) => b.vote_count - a.vote_count)
             set({
               details: personDetailsData,
-              credits: [],
+              credits: sortedCombinedCredits,
               loading: false,
               error: '',
             })

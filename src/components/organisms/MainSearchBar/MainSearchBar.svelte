@@ -1,6 +1,6 @@
 <script lang="ts">
   import { stores } from '@sapper/app'
-  import { afterUpdate } from 'svelte'
+  import { afterUpdate, onMount } from 'svelte'
   import { fade } from 'svelte/transition'
   import gsap from 'gsap'
 
@@ -8,9 +8,10 @@
   import { SearchInput } from '../../atoms'
   import { SwitchButton, SearchResult } from '../../molecules'
 
-  import { MOVIE_DB_URL } from '../../../constants/requests'
-
   import personStore from '../../../stores/personStore'
+
+  import { MOVIE_DB_URL } from '../../../constants/requests'
+  import { LAST_SEARCHED } from '../../../constants/localStorageKeys'
 
   import type {
     IMovieSearchResult,
@@ -32,7 +33,15 @@
   let isFocused = false
   let prevFocused = false
   let dropdownElement: HTMLDivElement
+
   let activeResult = 0
+
+  onMount(() => {
+    const id = localStorage.getItem(LAST_SEARCHED)
+    if (id) {
+      personStore.populate(id, apiKey)
+    }
+  })
 
   afterUpdate(() => {
     if (isFocused && !prevFocused) {
@@ -91,8 +100,8 @@
   const handleBlur = () => {
     isFocused = false
   }
-  const handleKeyDown = (e: KeyboardEvent) => {
-    const key = e.key
+  const handleKeyDown = (e: CustomEvent) => {
+    const key = e.detail.event.key
     if (data.length && isFocused) {
       const dataLength = data.length
       if (key === 'ArrowDown') {
@@ -115,11 +124,13 @@
         scrollTo: activeResult * 83,
       })
       if (key === 'Enter' || key === 'Space') {
+        e.detail.element.blur()
         handleSearch(data[activeResult].id)
       }
     }
   }
   const handleSearch = (id: string) => {
+    localStorage.setItem(LAST_SEARCHED, id)
     personStore.populate(id, apiKey)
     isFocused = false
     searchString = ''

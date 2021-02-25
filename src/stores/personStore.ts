@@ -72,8 +72,6 @@ function formatData<K extends keyof ICreditArrays>(
   )[]).map((d) => ({ ...d, type: method }))
 }
 
-// TODO; aadd to localStorage to fetch last onMount
-
 const personStore = {
   subscribe,
   populate: (id: string, apiKey: string) => {

@@ -1,15 +1,27 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
+
   export let placeholder: string
   export let value: string
+  let inputElement: HTMLInputElement
+
+  const dispatch = createEventDispatcher<{
+    keydown: { event: KeyboardEvent; element: HTMLInputElement }
+  }>()
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    dispatch('keydown', { event: e, element: inputElement })
+  }
 </script>
 
 <input
   type="text"
   bind:value
+  bind:this={inputElement}
   on:input
   on:focus
   on:blur
-  on:keydown
+  on:keydown={handleKeydown}
   aria-label={placeholder}
   {placeholder}
 />

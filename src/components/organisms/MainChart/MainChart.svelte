@@ -63,7 +63,7 @@
       const chartWidth =
         wrapperWidth - mainChartMargins.left - mainChartMargins.right
       xScale = scaleTime().range([0, chartWidth])
-      prevUpdatedWrapperWidth = prevUpdatedWrapperWidth
+      prevUpdatedWrapperWidth = wrapperWidth
     }
     if (
       updatedWrapperHeight &&
@@ -72,7 +72,7 @@
       const chartHeight =
         wrapperHeight - mainChartMargins.top - mainChartMargins.bottom
       yScale = yScale.range([chartHeight, 0])
-      prevUpdatedWrapperHeight = updatedWrapperHeight
+      prevUpdatedWrapperHeight = wrapperHeight
     }
   })
 
@@ -85,9 +85,13 @@
   bind:clientHeight={wrapperHeight}
   bind:clientWidth={wrapperWidth}
 >
-  <svg>
-    <MainChartCircles {xScale} {yScale} {sizeScale} {data} />
-  </svg>
+  {#if data?.length}
+    <svg>
+      <MainChartCircles {xScale} {yScale} {sizeScale} {data} />
+    </svg>
+  {:else if prevData?.length}
+    <p>Sorry, no data</p>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -96,6 +100,9 @@
   .chart-container {
     grid-area: chart;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     svg {
       width: 100%;

@@ -4,13 +4,17 @@
     MovieDetailsCard,
     MainChart,
   } from '../../organisms'
+
+  import personStore from '../../../stores/personStore'
+
+  $: store = $personStore
 </script>
 
 <section>
   <PersonDetailsCard />
   <MovieDetailsCard />
   <div class="filter" />
-  <MainChart />
+  <MainChart data={store.credits} />
   <div class="quick" />
   <div class="info" />
 </section>

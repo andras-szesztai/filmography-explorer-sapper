@@ -5,8 +5,6 @@
   import { NavBar } from '../components/molecules'
 
   gsap.registerPlugin(ScrollToPlugin)
-
-  // export let segment: string
 </script>
 
 <NavBar />

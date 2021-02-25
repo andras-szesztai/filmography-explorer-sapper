@@ -1,41 +1,93 @@
 <script lang="ts">
-  import { beforeUpdate } from 'svelte'
-  import { isEqual, min } from 'lodash'
-  import { select } from 'd3-selection'
-  import { scaleTime } from 'd3-scale'
+  import { afterUpdate } from 'svelte'
+  import { isEqual } from 'lodash'
+  import type { ScaleTime, ScaleLinear, ScalePower } from 'd3-scale'
+  import { scaleTime, scaleLinear, scaleSqrt } from 'd3-scale'
   import { extent } from 'd3-array'
 
-  import personStore from '../../../stores/personStore'
+  import { MainChartCircles } from '../../atoms/chartElements'
+
+  import { mainChartMargins } from '../../../constants/chart'
+
   import type {
     IPersonCastCredits,
     IPersonCrewCredits,
   } from '../../../types/person'
 
-  $: store = $personStore
-  $: credits = store.credits
-  let prevCredits = credits
+  export let data: (IPersonCrewCredits | IPersonCastCredits)[] | undefined
+
+  let prevData = data
 
   let wrapperHeight: number
+  let updatedWrapperHeight: number
+  let prevUpdatedWrapperHeight: number
   let wrapperWidth: number
+  let updatedWrapperWidth: number
+  let prevUpdatedWrapperWidth: number
 
-  let xScale, yScale, sizeScale
+  let xScale: ScaleTime<number, number, never>
+  let yScale: ScaleLinear<number, number, never>
+  let sizeScale: ScalePower<number, number, never>
 
-  beforeUpdate(() => {
-    if (credits?.length && !isEqual(credits, prevCredits)) {
-      xScale = scaleTime()
-        // .domain(extent(credits, (d) => d.unified_date))
-        .range([0, wrapperWidth])
-      prevCredits = credits
+  afterUpdate(() => {
+    if (
+      wrapperHeight &&
+      wrapperWidth &&
+      data?.length &&
+      !isEqual(data, prevData)
+    ) {
+      const chartWidth =
+        wrapperWidth - mainChartMargins.left - mainChartMargins.right
+      const chartHeight =
+        wrapperHeight - mainChartMargins.top - mainChartMargins.bottom
+      const xDomain = extent(data, (d) => d.unified_date)
+      if (!!xDomain[0]) {
+        xScale = scaleTime().domain(xDomain).range([0, chartWidth])
+      }
+      const yDomain = extent(data, (d) => d.vote_average)
+      if (!!yDomain[0]) {
+        yScale = scaleLinear().domain(yDomain).range([chartHeight, 0])
+      }
+      const sizeDomain = extent(data, (d) => d.vote_count)
+      if (!!sizeDomain[0]) {
+        sizeScale = scaleSqrt().domain(sizeDomain).range([4, 32])
+      }
+      prevData = data
+      prevUpdatedWrapperHeight = wrapperHeight
+      prevUpdatedWrapperWidth = wrapperWidth
+    }
+    if (
+      updatedWrapperWidth &&
+      prevUpdatedWrapperWidth !== updatedWrapperWidth
+    ) {
+      const chartWidth =
+        wrapperWidth - mainChartMargins.left - mainChartMargins.right
+      xScale = scaleTime().range([0, chartWidth])
+      prevUpdatedWrapperWidth = prevUpdatedWrapperWidth
+    }
+    if (
+      updatedWrapperHeight &&
+      prevUpdatedWrapperHeight !== updatedWrapperHeight
+    ) {
+      const chartHeight =
+        wrapperHeight - mainChartMargins.top - mainChartMargins.bottom
+      yScale = yScale.range([chartHeight, 0])
+      prevUpdatedWrapperHeight = updatedWrapperHeight
     }
   })
+
+  $: updatedWrapperWidth = wrapperWidth
+  $: updatedWrapperHeight = wrapperHeight
 </script>
 
 <div
+  class="chart-container"
   bind:clientHeight={wrapperHeight}
   bind:clientWidth={wrapperWidth}
-  class="chart-container"
 >
-  <svg />
+  <svg>
+    <MainChartCircles {xScale} {yScale} {sizeScale} {data} />
+  </svg>
 </div>
 
 <style lang="scss">

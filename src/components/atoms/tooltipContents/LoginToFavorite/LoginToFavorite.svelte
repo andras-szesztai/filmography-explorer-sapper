@@ -5,7 +5,7 @@
   <p>
     You have to
     <span> login </span>
-    to be able to favorite!
+    to be able to favorite
   </p>
 </div>
 

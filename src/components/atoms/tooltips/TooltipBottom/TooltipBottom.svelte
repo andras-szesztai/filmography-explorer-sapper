@@ -4,21 +4,27 @@
   export let topOffset: number
 
   let isHovered = false
-  let height: number
+  let wrapperHeight: number
+  let wrapperWidth: number
+  let tooltipWidth: number
+
+  $: leftPosition = tooltipWidth - wrapperWidth / 2 - 16
 </script>
 
 <div
+  class="relative-container"
+  bind:clientHeight={wrapperHeight}
+  bind:clientWidth={wrapperWidth}
   on:mouseenter={() => (isHovered = true)}
   on:mouseleave={() => (isHovered = false)}
-  class="relative-container"
 >
   <slot />
   {#if isHovered}
     <div
-      transition:fade={{ duration: 200 }}
-      bind:clientHeight={height}
       class="absolute-container"
-      style="top: -{height - topOffset}px"
+      transition:fade={{ duration: 200 }}
+      bind:clientWidth={tooltipWidth}
+      style="top: {wrapperHeight + topOffset}px; left: -{leftPosition}px;"
     >
       <div class="arrow-container">
         <slot name="content" />
@@ -39,7 +45,6 @@
     background: $colorLight;
     padding: 4px 8px;
     border-radius: 3px;
-    left: calc(12px + 100%);
     filter: drop-shadow(1px 1px 2px rgba($colorPrimary, 0.6));
     pointer-events: none;
   }
@@ -47,8 +52,8 @@
   .arrow-container {
     position: relative;
     &:after {
-      right: calc(100% + 7px);
-      bottom: 0px;
+      bottom: calc(100% + 4px);
+      right: 0px;
       border: solid transparent;
       content: '';
       height: 0;
@@ -56,7 +61,7 @@
       position: absolute;
       pointer-events: none;
       border-color: rgba(136, 183, 213, 0);
-      border-right-color: $colorLight;
+      border-bottom-color: $colorLight;
       border-width: 8px;
       margin-top: -8px;
     }

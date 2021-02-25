@@ -5,6 +5,7 @@
   let isHovered = false
 </script>
 
+<!-- TODO: make it able to handle different positions -->
 <div
   on:mouseenter={() => (isHovered = true)}
   on:mouseleave={() => (isHovered = false)}
@@ -25,7 +26,7 @@
 </div>
 
 <style lang="scss">
-  @import '../../../styles/variables.scss';
+  @import '../../../../styles/variables.scss';
   .relative-container {
     position: relative;
     display: inline;

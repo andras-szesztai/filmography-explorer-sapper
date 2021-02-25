@@ -3,8 +3,8 @@
 
   import { Image, SkeletonLoader } from '../../atoms'
   import { Star } from '../../atoms/icons'
+  import { TooltipRight } from '../../atoms/tooltips'
   import { LoginToFavorite } from '../../atoms/tooltipContents'
-  import { Tooltip } from '../../molecules'
 
   import personStore from '../../../stores/personStore'
 
@@ -30,10 +30,10 @@
             {details.name}
           </h1>
           <button aria-label={`Mark ${details.name} as favorite`} class="icon">
-            <Tooltip topOffset={10}>
+            <TooltipRight topOffset={10}>
               <Star />
               <div slot="content"><LoginToFavorite /></div>
-            </Tooltip>
+            </TooltipRight>
           </button>
         </div>
         <div tabindex="0" class="desc">

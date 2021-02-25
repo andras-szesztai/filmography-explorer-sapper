@@ -15,12 +15,16 @@ const mode = process.env.NODE_ENV
 const dev = mode === 'development'
 const legacy = !!process.env.SAPPER_LEGACY_BUILD
 
-const onwarn = (warning, onwarn) =>
-  (warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
-  (warning.code === 'CIRCULAR_DEPENDENCY' &&
-    /[/\\]@sapper[/\\]/.test(warning.message)) ||
-  warning.code === 'THIS_IS_UNDEFINED' ||
-  onwarn(warning)
+const onwarn = (warning, onwarn) => {
+  if (warning.code === 'CIRCULAR_DEPENDENCY') return
+  return (
+    (warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
+    (warning.code === 'CIRCULAR_DEPENDENCY' &&
+      /[/\\]@sapper[/\\]/.test(warning.message)) ||
+    warning.code === 'THIS_IS_UNDEFINED' ||
+    onwarn(warning)
+  )
+}
 
 export default {
   client: {

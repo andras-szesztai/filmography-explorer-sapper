@@ -23,6 +23,7 @@ export interface IPersonCastCredits {
   type: 'cast'
   vote_count: number
   vote_average: number
+  unified_date: Date
   name?: string
   title?: string
   media_type?: TMedia
@@ -46,6 +47,7 @@ export interface IPersonCrewCredits {
   type: 'crew'
   vote_count: number
   vote_average: number
+  unified_date: Date
   department?: string
   original_language?: string
   episode_count?: number

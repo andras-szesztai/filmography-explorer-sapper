@@ -1,14 +1,13 @@
 import { writable } from 'svelte/store'
 import axios, { AxiosResponse } from 'axios'
+import dayjs from 'dayjs'
 
 import { MOVIE_DB_URL } from '../constants/requests'
 import { CEREMONIES } from '../constants/data'
-import detailsExample from '../data/personDetailExample'
 
 import type {
   IPersonCastCredits,
   IPersonCombinedCredits,
-  // IPersonCombinedCredits,
   IPersonCrewCredits,
   IPersonDetails,
 } from '../types/person'
@@ -27,8 +26,8 @@ const { subscribe, set, update } = writable<IPersonStore>({
   error: '',
 })
 interface ICreditArrays {
-  crew: Omit<IPersonCrewCredits, 'type'>[]
-  cast: Omit<IPersonCastCredits, 'type'>[]
+  crew: Omit<IPersonCrewCredits, 'type' | 'unified_date'>[]
+  cast: Omit<IPersonCastCredits, 'type' | 'unified_date'>[]
 }
 
 const sharedFilterLogic = (d: IPersonCrewCredits | IPersonCastCredits) => {
@@ -68,9 +67,15 @@ function formatData<K extends keyof ICreditArrays>(
   array: ICreditArrays[K]
 ) {
   return (array as (
-    | Omit<IPersonCrewCredits, 'type'>
-    | Omit<IPersonCastCredits, 'type'>
-  )[]).map((d) => ({ ...d, type: method }))
+    | Omit<IPersonCrewCredits, 'type' | 'unified_date'>
+    | Omit<IPersonCastCredits, 'type' | 'unified_date'>
+  )[]).map((d) => {
+    return {
+      ...d,
+      type: method,
+      unified_date: dayjs(d.first_air_date || d.release_date).toDate(),
+    }
+  })
 }
 
 const personStore = {

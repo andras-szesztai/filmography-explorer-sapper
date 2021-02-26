@@ -11,10 +11,13 @@
 
   import type {
     IPersonCastCredits,
+    IPersonCrewCastCredits,
     IPersonCrewCredits,
   } from '../../../types/person'
 
-  export let data: (IPersonCrewCredits | IPersonCastCredits)[] | undefined
+  export let data:
+    | Array<IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits>
+    | undefined
 
   let prevData = data
 

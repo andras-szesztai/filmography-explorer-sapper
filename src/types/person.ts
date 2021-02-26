@@ -1,6 +1,6 @@
 import type { TMedia } from './media'
 
-export type TCredit = 'crew' | 'cast'
+export type TCredit = 'crew' | 'cast' | 'cast & crew'
 
 export interface IPersonDetails {
   id: number
@@ -17,53 +17,44 @@ export interface IPersonDetails {
   profile_path?: string
 }
 
-export interface IPersonCastCredits {
+interface IPersonCreditBase {
   id: number
   credit_id: string
-  type: 'cast'
   vote_count: number
   vote_average: number
   unified_date: Date
   name?: string
   title?: string
-  media_type?: TMedia
   original_language?: string
   episode_count?: number
   overview?: string
   origin_country?: string[]
   original_name?: string
-  genre_ids?: number[]
-  poster_path?: string
+  media_type?: TMedia
+  popularity?: number
+  backdrop_path?: string
   first_air_date?: string
   release_date?: string
-  character?: string
-  backdrop_path?: string
-  popularity?: number
+  genre_ids?: number[]
+  poster_path?: string
 }
 
-export interface IPersonCrewCredits {
-  id: number
-  credit_id: string
+export interface IPersonCastCredits extends IPersonCreditBase {
+  type: 'cast'
+  character?: string
+}
+
+export interface IPersonCrewCredits extends IPersonCreditBase {
   type: 'crew'
-  vote_count: number
-  vote_average: number
-  unified_date: Date
   department?: string
-  original_language?: string
-  episode_count?: number
   job?: string
-  overview?: string
-  origin_country?: string[]
-  original_name?: string
-  name?: string
-  title?: string
-  media_type?: TMedia
-  popularity?: number
-  backdrop_path?: string
-  first_air_date?: string
-  release_date?: string
-  genre_ids?: number[]
-  poster_path?: string
+}
+
+export interface IPersonCrewCastCredits extends IPersonCreditBase {
+  type: 'cast & crew'
+  character?: string
+  department?: string
+  job?: string
 }
 
 export interface IPersonCombinedCredits {

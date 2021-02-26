@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store'
 import axios, { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
+import { isEmpty, uniqBy } from 'lodash'
 
 import { MOVIE_DB_URL } from '../constants/requests'
 import { CEREMONIES } from '../constants/data'
@@ -8,13 +9,16 @@ import { CEREMONIES } from '../constants/data'
 import type {
   IPersonCastCredits,
   IPersonCombinedCredits,
+  IPersonCrewCastCredits,
   IPersonCrewCredits,
   IPersonDetails,
 } from '../types/person'
 
 interface IPersonStore {
   details?: IPersonDetails
-  credits?: (IPersonCrewCredits | IPersonCastCredits)[]
+  credits?: Array<
+    IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+  >
   loading: boolean
   error: string
 }
@@ -112,13 +116,38 @@ const personStore = {
               'cast',
               filteredCastData
             )
-            const sortedCombinedCredits = [
-              ...formattedCrewData,
-              ...formattedCastData,
-            ].sort((a, b) => b.vote_count - a.vote_count)
+            const uniqIds = uniqBy(
+              [...formattedCrewData, ...formattedCastData],
+              'id'
+            ).map((d) => d.id)
+            const combinedCredits: Array<
+              IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+            > = uniqIds
+              .map((d) => {
+                const crewCredit = formattedCrewData.find((c) => c.id === d)
+                const castCredit = formattedCastData.find((c) => c.id === d)
+                let newObject:
+                  | IPersonCrewCredits
+                  | IPersonCastCredits
+                  | IPersonCrewCastCredits
+                if (crewCredit && castCredit) {
+                  newObject = {
+                    ...crewCredit,
+                    ...castCredit,
+                    type: 'cast & crew',
+                  }
+                } else {
+                  newObject =
+                    crewCredit || castCredit || ({} as IPersonCrewCredits)
+                }
+                return newObject
+              })
+              .filter((d) => !isEmpty(d))
+              .sort((a, b) => b.vote_count - a.vote_count)
+
             set({
               details: personDetailsData,
-              credits: sortedCombinedCredits,
+              credits: combinedCredits,
               loading: false,
               error: '',
             })

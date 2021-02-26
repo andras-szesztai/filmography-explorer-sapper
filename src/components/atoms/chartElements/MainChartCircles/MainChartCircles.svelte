@@ -10,11 +10,15 @@
 
   import type {
     IPersonCastCredits,
+    IPersonCrewCastCredits,
     IPersonCrewCredits,
   } from '../../../../types/person'
+
   import { color, durationInSeconds } from '../../../../styles/variables'
 
-  export let data: (IPersonCrewCredits | IPersonCastCredits)[] | undefined
+  export let data:
+    | Array<IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits>
+    | undefined
   export let xScale: ScaleTime<number, number, never>
   let prevXScale = xScale
   export let yScale: ScaleLinear<number, number, never>
@@ -61,7 +65,6 @@
           (update) => update,
           (exit) =>
             exit.call((exit) => {
-              console.log(exit.nodes())
               gsap.to(exit.nodes(), {
                 opacity: 0,
                 duration: durationInSeconds.lg,
@@ -75,18 +78,6 @@
             })
         )
       prevXScale = xScale
-      //   (update) =>
-      //     update
-      //       .attr('fill', 'black')
-      //       .attr('y', 0)
-      //       .call((update) =>
-      //         update.transition(t).attr('x', (d, i) => i * 16)
-      //       ),
-      //   (exit) =>
-      //     exit
-      //       .attr('fill', 'brown')
-      //       .call((exit) => exit.transition(t).attr('y', 30).remove())
-      // )
     }
   })
 </script>

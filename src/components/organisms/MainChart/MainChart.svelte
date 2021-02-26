@@ -72,9 +72,10 @@
       updatedWrapperHeight &&
       prevUpdatedWrapperHeight !== updatedWrapperHeight
     ) {
+      console.log('runnin')
       const chartHeight =
         wrapperHeight - mainChartMargins.top - mainChartMargins.bottom
-      yScale = yScale.range([chartHeight, 0]).domain(yScale.domain())
+      yScale = scaleLinear().range([chartHeight, 0]).domain(yScale.domain())
       prevUpdatedWrapperHeight = wrapperHeight
     }
   })

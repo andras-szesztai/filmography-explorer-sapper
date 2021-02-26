@@ -22,15 +22,21 @@
   export let xScale: ScaleTime<number, number, never>
   let prevXScale = xScale
   export let yScale: ScaleLinear<number, number, never>
+  let prevYScale = yScale
   export let sizeScale: ScalePower<number, number, never>
+  let prevSizeScale = sizeScale
 
   let chartArea: SVGGElement
 
   beforeUpdate(() => {
     if (
       data &&
-      xScale?.domain() &&
-      !isEqual(xScale.domain(), prevXScale?.domain())
+      xScale &&
+      (!isEqual(xScale.domain(), prevXScale?.domain()) ||
+        !isEqual(xScale.range(), prevXScale?.range()) ||
+        !isEqual(yScale.domain(), prevYScale?.domain()) ||
+        !isEqual(yScale.range(), prevYScale?.range()) ||
+        !isEqual(sizeScale.domain(), prevSizeScale?.domain()))
     ) {
       data.sort((a, b) => b.unified_date.getTime() - a.unified_date.getTime())
       select<SVGGElement, Array<IPersonCrewCredits | IPersonCastCredits>>(
@@ -39,12 +45,12 @@
         .selectAll<SVGCircleElement, IPersonCrewCredits | IPersonCastCredits>(
           'circle'
         )
-        .data(data, (d) => d.credit_id)
+        .data(data, (d) => d.id)
         .join(
           (enter) =>
             enter
               .append('circle')
-              .style('fill', chroma(color.light).alpha(0.3).hex())
+              .style('fill', chroma(color.light).alpha(0.25).hex())
               .style('stroke', color.light)
               .style('opacity', 0)
               .attr('r', (d) => sizeScale(d.vote_count))
@@ -62,7 +68,16 @@
                   },
                 })
               }),
-          (update) => update,
+          (update) =>
+            update.each((d, i, n) => {
+              const el = select(n[i])
+              gsap.to(n[i], {
+                x: xScale(d.unified_date) - +el.attr('cx'),
+                y: yScale(d.vote_average) - +el.attr('cy'),
+                duration: durationInSeconds.lg,
+                ease: 'power2.inOut',
+              })
+            }),
           (exit) =>
             exit.call((exit) => {
               gsap.to(exit.nodes(), {
@@ -78,6 +93,8 @@
             })
         )
       prevXScale = xScale
+      prevYScale = yScale
+      prevSizeScale = sizeScale
     }
   })
 </script>

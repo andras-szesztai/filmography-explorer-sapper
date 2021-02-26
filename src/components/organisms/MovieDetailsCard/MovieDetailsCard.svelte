@@ -1,14 +1,14 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
 
-  import { Image, SkeletonLoader } from '../../atoms'
-  import { Star } from '../../atoms/icons'
-  import { TooltipBottom } from '../../atoms/tooltips'
-  import { LoginToFavorite } from '../../atoms/tooltipContents'
+  // import { Image, SkeletonLoader } from '../../atoms'
+  // import { Star } from '../../atoms/icons'
+  // import { TooltipBottom } from '../../atoms/tooltips'
+  // import { LoginToFavorite } from '../../atoms/tooltipContents'
 
-  import personStore from '../../../stores/personStore'
+  // import personStore from '../../../stores/personStore'
 
-  $: currPerson = $personStore.details
+  // $: currPerson = $personStore.details
   // $: loading = store.loading
   // $: details = store.details
   // $: error = store.error

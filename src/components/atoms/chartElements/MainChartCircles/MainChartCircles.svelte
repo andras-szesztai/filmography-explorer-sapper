@@ -4,6 +4,7 @@
   import { select } from 'd3-selection'
   import gsap from 'gsap'
   import chroma from 'chroma-js'
+  import { isEqual } from 'lodash'
 
   import { mainChartMargins } from '../../../../constants/chart'
 
@@ -11,28 +12,23 @@
     IPersonCastCredits,
     IPersonCrewCredits,
   } from '../../../../types/person'
-  import { color } from '../../../../styles/variables'
+  import { color, durationInSeconds } from '../../../../styles/variables'
 
   export let data: (IPersonCrewCredits | IPersonCastCredits)[] | undefined
   export let xScale: ScaleTime<number, number, never>
+  let prevXScale = xScale
   export let yScale: ScaleLinear<number, number, never>
   export let sizeScale: ScalePower<number, number, never>
 
   let chartArea: SVGGElement
 
   beforeUpdate(() => {
-    if (data && xScale?.domain()) {
-      console.log(
-        '🚀 ~ file: MainChartCircles.svelte ~ line 23 ~ beforeUpdate ~ data',
-        data
-      )
-      const sortedData = data.sort(
-        (a, b) => b.unified_date.getTime() - a.unified_date.getTime()
-      )
-      console.log(
-        '🚀 ~ file: MainChartCircles.svelte ~ line 30 ~ beforeUpdate ~ sortedData',
-        sortedData
-      )
+    if (
+      data &&
+      xScale?.domain() &&
+      !isEqual(xScale.domain(), prevXScale?.domain())
+    ) {
+      data.sort((a, b) => b.unified_date.getTime() - a.unified_date.getTime())
       select<SVGGElement, Array<IPersonCrewCredits | IPersonCastCredits>>(
         chartArea
       )
@@ -40,29 +36,45 @@
           'circle'
         )
         .data(data, (d) => d.credit_id)
-        .join((enter) =>
-          enter
-            .append('circle')
-            .style('fill', chroma(color.light).alpha(0.4).hex())
-            .style('stroke', color.light)
-            // .style('stroke-width', 2)
-            .style('opacity', 0)
-            .attr('r', (d) => sizeScale(d.vote_count))
-            .attr('cx', (d) => xScale(d.unified_date))
-            .attr('cy', (d) => yScale(d.vote_average))
-            .call((enter) => {
-              gsap.to(enter.nodes(), {
-                opacity: 1,
-                duration: 1,
+        .join(
+          (enter) =>
+            enter
+              .append('circle')
+              .style('fill', chroma(color.light).alpha(0.3).hex())
+              .style('stroke', color.light)
+              .style('opacity', 0)
+              .attr('r', (d) => sizeScale(d.vote_count))
+              .attr('cx', (d) => xScale(d.unified_date))
+              .attr('cy', (d) => yScale(d.vote_average))
+              .call((enter) => {
+                gsap.to(enter.nodes(), {
+                  opacity: 1,
+                  duration: durationInSeconds.lg,
+                  stagger: {
+                    from: 0,
+                    axis: 'x',
+                    amount: durationInSeconds.xxl,
+                    ease: 'power2.out',
+                  },
+                })
+              }),
+          (update) => update,
+          (exit) =>
+            exit.call((exit) => {
+              console.log(exit.nodes())
+              gsap.to(exit.nodes(), {
+                opacity: 0,
+                duration: durationInSeconds.lg,
                 stagger: {
                   from: 0,
                   axis: 'x',
-                  amount: 2,
-                  ease: 'power1.in',
+                  amount: durationInSeconds.xxl,
+                  ease: 'power2.in',
                 },
               })
             })
         )
+      prevXScale = xScale
       //   (update) =>
       //     update
       //       .attr('fill', 'black')

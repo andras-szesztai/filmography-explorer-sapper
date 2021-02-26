@@ -1,6 +1,8 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
 
+  import { durationInMilliseconds } from '../../../../styles/variables'
+
   export let topOffset: number
 
   let isHovered = false
@@ -15,7 +17,7 @@
   <slot />
   {#if isHovered}
     <div
-      transition:fade={{ duration: 200 }}
+      transition:fade={{ duration: durationInMilliseconds.xs }}
       bind:clientHeight={height}
       class="absolute-container"
       style="top: -{height - topOffset}px"

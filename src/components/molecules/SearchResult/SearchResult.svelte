@@ -10,6 +10,8 @@
     IMovieSearchResult,
   } from '../../../types/mainSearchResults'
 
+  import { durationInMilliseconds } from '../../../styles/variables'
+
   export let result: IMovieSearchResult | IPersonSearchResult
   export let index: number
   export let isActive: boolean = false
@@ -49,9 +51,14 @@
   {/if}
   {#if isActive}
     <div
-      in:fly={{ duration: 300, easing: cubicOut, x: 200, opacity: 1 }}
+      in:fly={{
+        duration: durationInMilliseconds.sm,
+        easing: cubicOut,
+        x: 200,
+        opacity: 1,
+      }}
       out:fly={{
-        duration: 300,
+        duration: durationInMilliseconds.sm,
         delay: 100,
         easing: cubicIn,
         x: 200,

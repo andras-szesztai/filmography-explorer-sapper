@@ -7,6 +7,7 @@
 
   import type { TSearchTypes } from '../../../types/mainSearchResults'
   import { SearchTypes } from '../../../types/mainSearchResults'
+  import { durationInSeconds } from '../../../styles/variables'
 
   // Props
   export let selected: TSearchTypes
@@ -20,7 +21,7 @@
   afterUpdate(() => {
     gsap.to(spanElement, {
       x: selected === 'movie' ? 43 : 0,
-      duration: 0.3,
+      duration: durationInSeconds.sm,
       ease: 'power4.inOut',
     })
   })

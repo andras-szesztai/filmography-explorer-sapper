@@ -20,6 +20,8 @@
   } from '../../../types/mainSearchResults'
   import { SearchTypes } from '../../../types/mainSearchResults'
 
+  import { durationInSeconds } from '../../../styles/variables'
+
   const { session } = stores()
   const apiKey = $session.MOVIE_DB_API_KEY
 
@@ -49,7 +51,7 @@
       gsap.to(dropdownElement, {
         scaleY: 1,
         transformOrigin: 'top',
-        duration: 0.3,
+        duration: durationInSeconds.sm,
         ease: 'power3.inOut',
       })
     }
@@ -58,7 +60,7 @@
       gsap.to(dropdownElement, {
         scaleY: 0,
         transformOrigin: 'top',
-        duration: 0.3,
+        duration: durationInSeconds.sm,
         delay: data.length ? 0.4 : 0,
         ease: 'power3.inOut',
         onComplete: () => (activeResult = 0),
@@ -119,7 +121,7 @@
         }
       }
       gsap.to(dropdownElement, {
-        duration: 0.4,
+        duration: durationInSeconds.sm,
         ease: 'power2.inOut',
         scrollTo: activeResult * 83,
       })

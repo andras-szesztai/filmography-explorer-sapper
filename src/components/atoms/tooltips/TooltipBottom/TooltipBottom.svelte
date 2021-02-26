@@ -1,6 +1,8 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
 
+  import { durationInMilliseconds } from '../../../../styles/variables'
+
   export let topOffset: number
 
   let isHovered = false
@@ -22,7 +24,7 @@
   {#if isHovered}
     <div
       class="absolute-container"
-      transition:fade={{ duration: 200 }}
+      transition:fade={{ duration: durationInMilliseconds.xs }}
       bind:clientWidth={tooltipWidth}
       style="top: {wrapperHeight + topOffset}px; left: -{leftPosition}px;"
     >

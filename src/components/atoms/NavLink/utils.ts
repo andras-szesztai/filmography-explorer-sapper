@@ -5,10 +5,12 @@ export const animateUnderline = (
   scaleX: number,
   duration: number
 ) => {
-  gsap.to(el, {
-    scaleX: scaleX,
-    duration: duration,
-    delay: 0.1,
-    ease: 'power2.inOut',
-  })
+  if (el) {
+    gsap.to(el, {
+      scaleX: scaleX,
+      duration: duration,
+      delay: 0.1,
+      ease: 'power2.inOut',
+    })
+  }
 }

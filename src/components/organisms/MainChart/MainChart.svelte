@@ -5,7 +5,7 @@
   import { scaleTime, scaleLinear, scaleSqrt } from 'd3-scale'
   import { extent } from 'd3-array'
 
-  import { MainChartCircles } from '../../atoms/chartElements'
+  import { MainChartElements } from '../../molecules'
 
   import { mainChartMargins } from '../../../constants/chart'
 
@@ -72,7 +72,6 @@
       updatedWrapperHeight &&
       prevUpdatedWrapperHeight !== updatedWrapperHeight
     ) {
-      console.log('runnin')
       const chartHeight =
         wrapperHeight - mainChartMargins.top - mainChartMargins.bottom
       yScale = scaleLinear().range([chartHeight, 0]).domain(yScale.domain())
@@ -91,7 +90,7 @@
 >
   {#if data?.length}
     <svg>
-      <MainChartCircles {xScale} {yScale} {sizeScale} {data} />
+      <MainChartElements {xScale} {yScale} {sizeScale} {data} />
     </svg>
   {:else if prevData?.length}
     <p>Sorry, no data</p>

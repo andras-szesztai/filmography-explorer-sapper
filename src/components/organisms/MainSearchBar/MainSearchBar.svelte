@@ -48,23 +48,27 @@
   afterUpdate(() => {
     if (isFocused && !prevFocused) {
       prevFocused = true
-      gsap.to(dropdownElement, {
-        scaleY: 1,
-        transformOrigin: 'top',
-        duration: durationInSeconds.sm,
-        ease: 'power3.inOut',
-      })
+      if (dropdownElement) {
+        gsap.to(dropdownElement, {
+          scaleY: 1,
+          transformOrigin: 'top',
+          duration: durationInSeconds.sm,
+          ease: 'power3.inOut',
+        })
+      }
     }
     if (!isFocused && prevFocused) {
       prevFocused = false
-      gsap.to(dropdownElement, {
-        scaleY: 0,
-        transformOrigin: 'top',
-        duration: durationInSeconds.sm,
-        delay: data.length ? 0.4 : 0,
-        ease: 'power3.inOut',
-        onComplete: () => (activeResult = 0),
-      })
+      if (dropdownElement) {
+        gsap.to(dropdownElement, {
+          scaleY: 0,
+          transformOrigin: 'top',
+          duration: durationInSeconds.sm,
+          delay: data.length ? 0.4 : 0,
+          ease: 'power3.inOut',
+          onComplete: () => (activeResult = 0),
+        })
+      }
     }
   })
 
@@ -120,11 +124,13 @@
           activeResult = activeResult - 1
         }
       }
-      gsap.to(dropdownElement, {
-        duration: durationInSeconds.sm,
-        ease: 'power2.inOut',
-        scrollTo: activeResult * 83,
-      })
+      if (dropdownElement) {
+        gsap.to(dropdownElement, {
+          duration: durationInSeconds.sm,
+          ease: 'power2.inOut',
+          scrollTo: activeResult * 83,
+        })
+      }
       if (key === 'Enter' || key === 'Space') {
         e.detail.element.blur()
         handleSearch(data[activeResult].id)

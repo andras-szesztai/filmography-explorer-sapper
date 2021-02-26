@@ -19,11 +19,13 @@
   let spanElement: HTMLSpanElement
 
   afterUpdate(() => {
-    gsap.to(spanElement, {
-      x: selected === 'movie' ? 43 : 0,
-      duration: durationInSeconds.sm,
-      ease: 'power4.inOut',
-    })
+    if (spanElement) {
+      gsap.to(spanElement, {
+        x: selected === 'movie' ? 43 : 0,
+        duration: durationInSeconds.sm,
+        ease: 'power4.inOut',
+      })
+    }
   })
 </script>
 

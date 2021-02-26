@@ -62,7 +62,7 @@
     ) {
       const chartWidth =
         wrapperWidth - mainChartMargins.left - mainChartMargins.right
-      xScale = scaleTime().range([0, chartWidth])
+      xScale = scaleTime().range([0, chartWidth]).domain(xScale.domain())
       prevUpdatedWrapperWidth = wrapperWidth
     }
     if (
@@ -71,7 +71,7 @@
     ) {
       const chartHeight =
         wrapperHeight - mainChartMargins.top - mainChartMargins.bottom
-      yScale = yScale.range([chartHeight, 0])
+      yScale = yScale.range([chartHeight, 0]).domain(yScale.domain())
       prevUpdatedWrapperHeight = wrapperHeight
     }
   })

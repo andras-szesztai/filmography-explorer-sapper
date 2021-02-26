@@ -205,6 +205,7 @@
     position: absolute;
     top: 24px;
     left: 24px;
+    z-index: 1;
     @media (max-width: $breakpoint-mobile) {
       top: 12px;
       left: 12px;

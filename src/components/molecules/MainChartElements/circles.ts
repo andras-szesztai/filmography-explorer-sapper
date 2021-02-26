@@ -2,11 +2,13 @@ import { select } from 'd3-selection'
 import type { ScaleTime, ScaleLinear, ScalePower } from 'd3-scale'
 import gsap from 'gsap'
 import chroma from 'chroma-js'
+
 import type {
   IPersonCastCredits,
   IPersonCrewCastCredits,
   IPersonCrewCredits,
 } from '../../../types/person'
+
 import { color, durationInSeconds } from '../../../styles/variables'
 
 interface IParams {
@@ -40,9 +42,9 @@ const enterUpdateExitCircles = ({
           .style('fill', chroma(color.light).alpha(0.25).hex())
           .style('stroke', color.light)
           .style('opacity', 0)
-          .attr('r', (d) => sizeScale(d.vote_count))
           .attr('cx', (d) => xScale(d.unified_date))
           .attr('cy', (d) => yScale(d.vote_average))
+          .attr('r', (d) => sizeScale(d.vote_count))
           .call((enter) => {
             gsap.to(enter.nodes(), {
               opacity: 1,

@@ -90,7 +90,14 @@
 >
   {#if data?.length}
     <svg>
-      <MainChartElements {xScale} {yScale} {sizeScale} {data} />
+      <MainChartElements
+        {xScale}
+        {yScale}
+        {sizeScale}
+        {data}
+        width={wrapperWidth}
+        height={wrapperHeight}
+      />
     </svg>
   {:else if prevData?.length}
     <p>Sorry, no data</p>

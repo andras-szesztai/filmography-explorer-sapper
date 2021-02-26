@@ -4,6 +4,7 @@
   import { isEqual } from 'lodash'
 
   import enterUpdateExitCircles from './circles'
+  import enterUpdateExitDelaunay from './voronoi'
 
   import { mainChartMargins } from '../../../constants/chart'
 
@@ -16,6 +17,8 @@
   export let data:
     | Array<IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits>
     | undefined
+  export let width: number
+  export let height: number
   export let xScale: ScaleTime<number, number, never>
   let prevXScale = xScale
   export let yScale: ScaleLinear<number, number, never>
@@ -24,7 +27,7 @@
   let prevSizeScale = sizeScale
 
   let circlesArea: SVGGElement
-  let voronoiArea: SVGGElement
+  let delaunayArea: SVGGElement
   let yGridArea: SVGGElement
 
   beforeUpdate(() => {
@@ -45,6 +48,14 @@
         yScale,
         sizeScale,
       })
+      enterUpdateExitDelaunay({
+        delaunayArea,
+        data,
+        xScale,
+        yScale,
+        height,
+        width,
+      })
       prevXScale = xScale
       prevYScale = yScale
       prevSizeScale = sizeScale
@@ -53,14 +64,11 @@
 </script>
 
 <g
-  bind:this={circlesArea}
-  transform="translate({mainChartMargins.left} {mainChartMargins.top})"
-/>
-<g
-  bind:this={voronoiArea}
-  transform="translate({mainChartMargins.left} {mainChartMargins.top})"
-/>
-<g
   bind:this={yGridArea}
   transform="translate({mainChartMargins.left} {mainChartMargins.top})"
 />
+<g
+  bind:this={circlesArea}
+  transform="translate({mainChartMargins.left} {mainChartMargins.top})"
+/>
+<g bind:this={delaunayArea} />

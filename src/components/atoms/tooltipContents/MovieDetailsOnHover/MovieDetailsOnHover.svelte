@@ -1,8 +1,12 @@
 <script lang="ts">
   import dayjs from 'dayjs'
+  import { selectAll } from 'd3-selection'
+  import { beforeUpdate, onDestroy } from 'svelte'
   import { capitalize } from 'lodash'
   import numeral from 'numeral'
+  import chroma from 'chroma-js'
 
+  import Image from '../../Image/Image.svelte'
   import { ArrowRight } from '../../icons'
 
   import { FULL_FORMAT } from '../../../../constants/dates'
@@ -14,13 +18,33 @@
     IPersonCrewCastCredits,
   } from '../../../../types/person'
 
-  import { color } from '../../../../styles/variables'
-  import Image from '../../Image/Image.svelte'
+  import { color, opacity } from '../../../../styles/variables'
 
   export let data:
     | IPersonCrewCredits
     | IPersonCastCredits
     | IPersonCrewCastCredits
+
+  beforeUpdate(() => {
+    // use EACh
+    selectAll<
+      SVGCircleElement,
+      IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+    >('circle').style('fill', (d) =>
+      chroma(color.light)
+        .alpha(d.id === data.id ? opacity.none : opacity.midLow)
+        .hex()
+    )
+  })
+
+  onDestroy(() => {
+    selectAll<
+      SVGCircleElement,
+      IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+    >('circle').style('fill', () =>
+      chroma(color.light).alpha(opacity.midLow).hex()
+    )
+  })
 
   // TODO: UPDATE with active movie stor
 </script>
@@ -86,6 +110,10 @@
     .title {
       font-size: $fs-h6;
       font-weight: $semibold;
+      max-width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     span {

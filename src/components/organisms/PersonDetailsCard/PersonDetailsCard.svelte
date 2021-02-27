@@ -59,7 +59,6 @@
 
   .container {
     grid-area: person;
-    background-color: $colorLight;
 
     padding: 16px;
 
@@ -91,7 +90,7 @@
       font-size: $fs-h1;
       line-height: 1.15;
       font-weight: $semibold;
-      color: $colorPrimary;
+      color: $colorLight;
     }
   }
 
@@ -112,7 +111,7 @@
 
   .desc {
     grid-area: desc;
-    background: $colorPrimary;
+    background: rgba($colorLight, 0.35);
     border-radius: 3px;
     padding: 6px 8px;
     overflow-y: scroll;

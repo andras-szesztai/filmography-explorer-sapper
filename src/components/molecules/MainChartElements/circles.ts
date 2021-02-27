@@ -9,7 +9,7 @@ import type {
   IPersonCrewCredits,
 } from '../../../types/person'
 
-import { color, durationInSeconds } from '../../../styles/variables'
+import { color, durationInSeconds, opacity } from '../../../styles/variables'
 
 interface IParams {
   circlesArea: SVGGElement
@@ -39,8 +39,8 @@ const enterUpdateExitCircles = ({
       (enter) =>
         enter
           .append('circle')
-          .style('fill', chroma(color.light).alpha(0.25).hex())
-          .style('stroke', color.light)
+          .style('fill', chroma(color.light).alpha(opacity.midLow).hex())
+          // .style('stroke', color.light)
           .style('opacity', 0)
           .attr('cx', (d) => xScale(d.unified_date))
           .attr('cy', (d) => yScale(d.vote_average))

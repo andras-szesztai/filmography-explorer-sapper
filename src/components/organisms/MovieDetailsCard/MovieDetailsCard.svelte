@@ -15,7 +15,7 @@
 </script>
 
 <div in:fade class="container">
-  <div>MovieCard</div>
+  <div>&nbsp;</div>
 </div>
 
 <!-- TODO: UPDATE When Logged in -->
@@ -24,7 +24,6 @@
 
   .container {
     grid-area: movie;
-    background-color: $colorLight;
 
     padding: 16px;
     border-radius: 4px;

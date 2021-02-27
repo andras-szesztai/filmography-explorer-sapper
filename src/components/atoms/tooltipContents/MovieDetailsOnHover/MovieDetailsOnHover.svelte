@@ -1,5 +1,6 @@
 <script lang="ts">
   import dayjs from 'dayjs'
+  import gsap from 'gsap'
   import { selectAll } from 'd3-selection'
   import { beforeUpdate, onDestroy } from 'svelte'
   import { capitalize } from 'lodash'
@@ -18,7 +19,11 @@
     IPersonCrewCastCredits,
   } from '../../../../types/person'
 
-  import { color, opacity } from '../../../../styles/variables'
+  import {
+    color,
+    durationInSeconds,
+    opacity,
+  } from '../../../../styles/variables'
 
   export let data:
     | IPersonCrewCredits
@@ -26,14 +31,16 @@
     | IPersonCrewCastCredits
 
   beforeUpdate(() => {
-    // use EACh
     selectAll<
       SVGCircleElement,
       IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
-    >('circle').style('fill', (d) =>
-      chroma(color.light)
-        .alpha(d.id === data.id ? opacity.none : opacity.midLow)
-        .hex()
+    >('circle').each((d, i, n) =>
+      gsap.to(n[i], {
+        fill: chroma(color.light)
+          .alpha(d.id === data.id ? opacity.none : opacity.midLow)
+          .hex(),
+        duration: durationInSeconds.xs,
+      })
     )
   })
 
@@ -41,12 +48,15 @@
     selectAll<
       SVGCircleElement,
       IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
-    >('circle').style('fill', () =>
-      chroma(color.light).alpha(opacity.midLow).hex()
+    >('circle').each((_, i, n) =>
+      gsap.to(n[i], {
+        fill: chroma(color.light).alpha(opacity.midLow).hex(),
+        duration: durationInSeconds.xs,
+      })
     )
   })
 
-  // TODO: UPDATE with active movie stor
+  // TODO: UPDATE with active movie store
 </script>
 
 <div class="container">

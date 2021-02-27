@@ -5,6 +5,7 @@
 
   import enterUpdateExitCircles from './circles'
   import enterUpdateExitDelaunay from './voronoi'
+  import enterUpdateExitGridLines from './gridLines'
 
   import { mainChartMargins } from '../../../constants/chart'
 
@@ -13,6 +14,7 @@
     IPersonCrewCastCredits,
     IPersonCrewCredits,
   } from '../../../types/person'
+  import enterUpdateExitXAxis from './xAxis'
 
   export let data:
     | Array<IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits>
@@ -29,6 +31,7 @@
   let circlesArea: SVGGElement
   let delaunayArea: SVGGElement
   let yGridArea: SVGGElement
+  let xAxisArea: SVGGElement
 
   beforeUpdate(() => {
     if (
@@ -57,6 +60,20 @@
         height,
         width,
       })
+      enterUpdateExitGridLines({
+        yGridArea,
+        yScale,
+        width,
+      })
+      enterUpdateExitGridLines({
+        yGridArea,
+        yScale,
+        width,
+      })
+      enterUpdateExitXAxis({
+        xAxisArea,
+        xScale,
+      })
       prevXScale = xScale
       prevYScale = yScale
       prevSizeScale = sizeScale
@@ -64,9 +81,10 @@
   })
 </script>
 
+<g bind:this={yGridArea} transform="translate(0 {mainChartMargins.top})" />
 <g
-  bind:this={yGridArea}
-  transform="translate({mainChartMargins.left} {mainChartMargins.top})"
+  bind:this={xAxisArea}
+  transform="translate({mainChartMargins.left}  {height - mainChartMargins.top/2})"
 />
 <g
   bind:this={circlesArea}

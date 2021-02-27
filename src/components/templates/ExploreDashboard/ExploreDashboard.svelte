@@ -27,7 +27,7 @@
     display: grid;
     padding: 24px;
 
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 420px;
     column-gap: 24px;
     grid-template-rows: repeat(2, 70px) 1fr 50px;
     row-gap: 24px;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { afterUpdate } from 'svelte'
-  import { isEqual } from 'lodash'
+  import { isEqual, isUndefined } from 'lodash'
   import type { ScaleTime, ScaleLinear, ScalePower } from 'd3-scale'
   import { scaleTime, scaleLinear, scaleSqrt } from 'd3-scale'
   import { extent } from 'd3-array'
@@ -64,6 +64,7 @@
       prevUpdatedWrapperWidth = wrapperWidth
     }
     if (
+      data?.length &&
       updatedWrapperWidth &&
       prevUpdatedWrapperWidth !== updatedWrapperWidth
     ) {
@@ -73,12 +74,13 @@
       prevUpdatedWrapperWidth = wrapperWidth
     }
     if (
+      data?.length &&
       updatedWrapperHeight &&
       prevUpdatedWrapperHeight !== updatedWrapperHeight
     ) {
       const chartHeight =
         wrapperHeight - mainChartMargins.top - mainChartMargins.bottom
-      yScale = scaleLinear().range([chartHeight, 0]).domain(yScale.domain())
+      yScale = scaleLinear().range([chartHeight, 0]).domain(yScale?.domain())
       prevUpdatedWrapperHeight = wrapperHeight
     }
   })
@@ -122,8 +124,8 @@
         height={wrapperHeight}
       />
     </svg>
-  {:else if prevData?.length}
-    <p>Sorry, no data</p>
+  {:else if !isUndefined(data)}
+    <p class="no-data">Sorry, no data available</p>
   {/if}
 </div>
 
@@ -146,5 +148,9 @@
   .tooltip-container {
     position: absolute;
     pointer-events: none;
+  }
+
+  .no-data {
+    color: $colorLight;
   }
 </style>

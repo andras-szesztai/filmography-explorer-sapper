@@ -83,7 +83,7 @@
     display: flex;
     align-items: center;
     h1 {
-      max-width: 225px;
+      max-width: 260px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -111,7 +111,7 @@
 
   .desc {
     grid-area: desc;
-    background: rgba($colorLight, 0.35);
+    background: rgba($colorLight, 0.25);
     border-radius: 3px;
     padding: 6px 8px;
     overflow-y: scroll;

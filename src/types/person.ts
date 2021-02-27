@@ -23,6 +23,7 @@ interface IPersonCreditBase {
   vote_count: number
   vote_average: number
   unified_date: Date
+  media_type: TMedia
   name?: string
   title?: string
   original_language?: string
@@ -30,7 +31,6 @@ interface IPersonCreditBase {
   overview?: string
   origin_country?: string[]
   original_name?: string
-  media_type?: TMedia
   popularity?: number
   backdrop_path?: string
   first_air_date?: string

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { beforeUpdate } from 'svelte'
+  import { stores } from '@sapper/app'
   import type { ScaleTime, ScaleLinear, ScalePower } from 'd3-scale'
   import { isEqual } from 'lodash'
 
@@ -27,6 +28,9 @@
   let prevYScale = yScale
   export let sizeScale: ScalePower<number, number, never>
   let prevSizeScale = sizeScale
+
+  const { session } = stores()
+  const apiKey = $session.MOVIE_DB_API_KEY
 
   let circlesArea: SVGGElement
   let delaunayArea: SVGGElement
@@ -59,6 +63,7 @@
         sizeScale,
         height,
         width,
+        apiKey,
       })
       enterUpdateExitGridLines({
         yGridArea,
@@ -84,7 +89,8 @@
 <g bind:this={yGridArea} transform="translate(0 {mainChartMargins.top})" />
 <g
   bind:this={xAxisArea}
-  transform="translate({mainChartMargins.left}  {height - mainChartMargins.top/2})"
+  transform="translate({mainChartMargins.left}  {height -
+    mainChartMargins.top / 2})"
 />
 <g
   bind:this={circlesArea}

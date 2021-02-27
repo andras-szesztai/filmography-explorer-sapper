@@ -146,6 +146,8 @@
     data = []
   }
 
+  // TODO: style scrollbar
+
   $: placeholder =
     selected === SearchTypes.person
       ? 'person in the film industry'

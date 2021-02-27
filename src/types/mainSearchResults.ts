@@ -8,6 +8,7 @@ export enum SearchTypes {
 }
 
 export type TSearchTypes = SearchTypes
+
 export interface IMovieSearchResult extends ISearchResultBase {
   genre_ids: number[]
   backdrop_path: string

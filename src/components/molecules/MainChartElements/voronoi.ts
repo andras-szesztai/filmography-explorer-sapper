@@ -3,6 +3,7 @@ import { Delaunay } from 'd3-delaunay'
 import type { ScaleTime, ScaleLinear, ScalePower } from 'd3-scale'
 
 import hoverStore from '../../../stores/mainChartHover'
+import movieStore from '../../../stores/movieStore'
 
 import { mainChartMargins } from '../../../constants/chart'
 
@@ -20,6 +21,7 @@ interface IParams {
   sizeScale: ScalePower<number, number, never>
   height: number
   width: number
+  apiKey: string
 }
 
 const enterUpdateExitDelaunay = ({
@@ -30,6 +32,7 @@ const enterUpdateExitDelaunay = ({
   sizeScale,
   height,
   width,
+  apiKey,
 }: IParams) => {
   const delaunay = Delaunay.from(
     data,
@@ -59,11 +62,9 @@ const enterUpdateExitDelaunay = ({
           .append('path')
           .attr('class', 'delaunay-path')
           .attr('fill', 'transparent')
+          .attr('cursor', 'pointer')
           .attr('d', (_, i) => delaunay.renderCell(i))
           .call(addInteractions),
-      // .attr('cursor', (d) =>
-      //   activeMovieID === d.id ? 'default' : 'pointer'
-      // ),
       (update) =>
         update
           .call(addInteractions)
@@ -80,10 +81,17 @@ const enterUpdateExitDelaunay = ({
       ) => {
         hoverStore.set({ isHovered: true, hoveredData: getHoveredData(d) })
       }
-    ).on('mouseout', () =>
-      hoverStore.update((s) => ({ ...s, isHovered: false }))
     )
-    // .on("click")
+      .on('mouseout', () =>
+        hoverStore.update((s) => ({ ...s, isHovered: false }))
+      )
+      .on(
+        'click',
+        (
+          _e: Event,
+          d: IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+        ) => movieStore.populate(d.id, d.media_type, apiKey)
+      )
   }
 }
 

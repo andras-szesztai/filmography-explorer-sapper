@@ -36,18 +36,18 @@ export interface ISeriesDetails {
 
 export interface IMediaCredits {
   id: number
-  cast: {
+  cast: Array<{
     id: number
     credit_id: string
     name: string
     popularity: number
     character: string
-  }
-  crew: {
+  }>
+  crew: Array<{
     id: number
     credit_id: string
     name: string
     popularity: number
     job: string
-  }
+  }>
 }

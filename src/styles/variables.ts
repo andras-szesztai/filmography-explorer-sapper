@@ -11,7 +11,7 @@ export const durationInSeconds = {
   md: 0.5,
   lg: 1,
   xl: 1.5,
-  xxl: 2.5,
+  xxl: 2,
 }
 
 export const durationInMilliseconds = {
@@ -20,7 +20,7 @@ export const durationInMilliseconds = {
   md: 500,
   lg: 1000,
   xl: 1500,
-  xxl: 2500,
+  xxl: 2000,
 }
 
 export const opacity = {

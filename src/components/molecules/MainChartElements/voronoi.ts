@@ -60,7 +60,15 @@ const enterUpdateExitDelaunay = ({
           .attr('class', 'delaunay-path')
           .attr('fill', 'transparent')
           .attr('d', (_, i) => delaunay.renderCell(i))
-          .call((e) => e),
+          .on('mouseover', (_, d) => {
+            hoverStore.set({ isHovered: true, hoveredData: getHoveredData(d) })
+          })
+          .on('mouseout', () =>
+            hoverStore.update((s) => ({ ...s, isHovered: false }))
+          ),
+      // .attr('cursor', (d) =>
+      //   activeMovieID === d.id ? 'default' : 'pointer'
+      // ),
       (update) =>
         update
           .on('mouseover', (_, d) => {
@@ -76,5 +84,7 @@ const enterUpdateExitDelaunay = ({
       (exit) => exit.remove()
     )
 }
+
+function addInteractions() {}
 
 export default enterUpdateExitDelaunay

@@ -3,24 +3,25 @@
 
   import { durationInMilliseconds } from '../../../../styles/variables'
 
-  export let topOffset: number
+  export let topOffset: number = 0
+  export let isParentHovered: boolean = false
 
   let isHovered = false
-  let height: number
+  let wrapperHeight: number
 </script>
 
 <div
   on:mouseenter={() => (isHovered = true)}
   on:mouseleave={() => (isHovered = false)}
   class="relative-container"
+  bind:clientHeight={wrapperHeight}
 >
   <slot />
-  {#if isHovered}
+  {#if isHovered || isParentHovered}
     <div
       transition:fade={{ duration: durationInMilliseconds.xs }}
-      bind:clientHeight={height}
       class="absolute-container"
-      style="top: -{height - topOffset}px"
+      style="bottom: {wrapperHeight / 2 - 12}px"
     >
       <div class="arrow-container">
         <slot name="content" />
@@ -33,7 +34,8 @@
   @import '../../../../styles/variables.scss';
   .relative-container {
     position: relative;
-    display: inline-block;
+    width: 100%;
+    height: 100%;
   }
 
   .absolute-container {

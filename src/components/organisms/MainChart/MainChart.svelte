@@ -5,7 +5,10 @@
   import { scaleTime, scaleLinear, scaleSqrt } from 'd3-scale'
   import { extent } from 'd3-array'
 
+  import { TooltipRight } from '../../atoms/tooltips'
   import { MainChartElements } from '../../molecules'
+
+  import hoverStore from '../../../stores/mainChartHover'
 
   import { mainChartMargins } from '../../../constants/chart'
 
@@ -79,6 +82,9 @@
     }
   })
 
+  $: hoveredStore = $hoverStore
+  $: hoveredData = hoveredStore.hoveredData
+
   $: updatedWrapperWidth = wrapperWidth
   $: updatedWrapperHeight = wrapperHeight
 </script>
@@ -88,6 +94,24 @@
   bind:clientHeight={wrapperHeight}
   bind:clientWidth={wrapperWidth}
 >
+  {#if hoveredStore.isHovered && hoveredData}
+    <div
+      class="tooltip-container"
+      style="top: {hoveredData.yPosition -
+        hoveredData.radius}px; left: {hoveredData.xPosition -
+        hoveredData.radius}px; width: {hoveredData.radius *
+        2}px; height: {hoveredData.radius * 2}px;"
+    >
+      <TooltipRight isParentHovered={hoveredStore.isHovered}>
+        <div slot="content">
+          <div>Hello</div>
+          <div>World</div>
+          <div>!!!!</div>
+        </div>
+      </TooltipRight>
+    </div>
+  {/if}
+  <div />
   {#if data?.length}
     <svg>
       <MainChartElements
@@ -118,5 +142,10 @@
       width: 100%;
       height: 100%;
     }
+  }
+
+  .tooltip-container {
+    position: absolute;
+    pointer-events: none;
   }
 </style>

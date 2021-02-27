@@ -53,6 +53,7 @@
         data,
         xScale,
         yScale,
+        sizeScale,
         height,
         width,
       })

@@ -37,11 +37,6 @@
       'chart movie'
       'quick info';
   }
-
-  div {
-    border: 1px solid white;
-  }
-
   .filter {
     grid-area: filter;
   }

@@ -6,8 +6,14 @@ import type {
   IPersonCrewCastCredits,
 } from '../types/person'
 
+interface IHoveredData {
+  data: IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+  yPosition: number
+  xPosition: number
+  radius: number
+}
 interface IStore {
-  hoveredData?: IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+  hoveredData?: IHoveredData
   isHovered: boolean
 }
 

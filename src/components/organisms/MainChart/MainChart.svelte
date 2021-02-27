@@ -7,6 +7,8 @@
 
   import { MainChartElements } from '../../molecules'
 
+  import hoverStore from '../../../stores/mainChartHover'
+
   import { mainChartMargins } from '../../../constants/chart'
 
   import type {
@@ -78,6 +80,8 @@
       prevUpdatedWrapperHeight = wrapperHeight
     }
   })
+
+  $: console.log($hoverStore)
 
   $: updatedWrapperWidth = wrapperWidth
   $: updatedWrapperHeight = wrapperHeight

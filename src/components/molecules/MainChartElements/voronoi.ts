@@ -1,6 +1,6 @@
 import { select } from 'd3-selection'
 import { Delaunay } from 'd3-delaunay'
-import type { ScaleTime, ScaleLinear } from 'd3-scale'
+import type { ScaleTime, ScaleLinear, ScalePower } from 'd3-scale'
 
 import hoverStore from '../../../stores/mainChartHover'
 
@@ -17,6 +17,7 @@ interface IParams {
   data: Array<IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits>
   xScale: ScaleTime<number, number, never>
   yScale: ScaleLinear<number, number, never>
+  sizeScale: ScalePower<number, number, never>
   height: number
   width: number
 }
@@ -26,6 +27,7 @@ const enterUpdateExitDelaunay = ({
   data,
   xScale,
   yScale,
+  sizeScale,
   height,
   width,
 }: IParams) => {
@@ -34,6 +36,16 @@ const enterUpdateExitDelaunay = ({
     (d) => xScale(d.unified_date) + mainChartMargins.left,
     (d) => yScale(d.vote_average) + mainChartMargins.top
   ).voronoi([0, 0, width, height])
+  const getHoveredData = (
+    d: IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+  ) => {
+    return {
+      data: d,
+      yPosition: yScale(d.vote_average) + mainChartMargins.top,
+      xPosition: xScale(d.unified_date) + mainChartMargins.left,
+      radius: sizeScale(d.vote_count),
+    }
+  }
 
   select(delaunayArea)
     .selectAll<
@@ -47,70 +59,22 @@ const enterUpdateExitDelaunay = ({
           .append('path')
           .attr('class', 'delaunay-path')
           .attr('fill', 'transparent')
-          // .attr('stroke', 'red')
+          .attr('d', (_, i) => delaunay.renderCell(i))
+          .call((e) => e),
+      (update) =>
+        update
+          .on('mouseover', (_, d) => {
+            hoverStore.set({ isHovered: true, hoveredData: getHoveredData(d) })
+          })
+          .on('mouseout', () =>
+            hoverStore.update((s) => ({ ...s, isHovered: false }))
+          )
           // .attr('cursor', (d) =>
           //   activeMovieID === d.id ? 'default' : 'pointer'
           // )
-          .attr('d', (_, i) => delaunay.renderCell(i))
-          .call((e) => e),
-      (update) => update.attr('d', (_, i) => delaunay.renderCell(i)),
+          .attr('d', (_, i) => delaunay.renderCell(i)),
       (exit) => exit.remove()
     )
 }
-
-// function addUpdateInteractions() {
-//   const { voronoiArea, xScale } = storedValues.current
-//   const populateHoveredFunc = isBookmarkChart ? populateBookmarkedHoveredMovie : populateHoveredMovie
-//   const emptyHoveredFunc = isBookmarkChart ? emptyBookmarkedHoveredMovie : emptyHoveredMovie
-//   const setActiveMovieIDFunc = isBookmarkChart ? setBookmarkedActiveMovieID : setActiveMovieID
-//   voronoiArea
-//     .selectAll('.voronoi-path')
-//     .on('mouseover', (d: any) => {
-//       const hovered = {
-//         id: d.id as number,
-//         data: d as MovieObject,
-//         yPosition: props.tooltipYPosition,
-//         xPosition: getXPosition({
-//           data: d,
-//           left: margin.left,
-//           width,
-//           xScale
-//         })
-//       }
-//       if (!props.isFirstEntered) {
-//         dispatch(populateHoveredFunc(hovered))
-//       }
-//       if (props.isFirstEntered) {
-//         timeOut.current = setTimeout(() => {
-//           props.setIsFirstEntered(false)
-//           dispatch(populateHoveredFunc(hovered))
-//         }, duration.md)
-//       }
-//     })
-//     .on('mouseout', () => {
-//       clearTimeout(timeOut.current)
-//       if (hoveredMovieID) {
-//         dispatch(emptyHoveredFunc())
-//       }
-//     })
-//     .on('click', (d: any) => {
-//       if (activeMovieID !== d.id) {
-//         dispatch(
-//           setActiveMovieIDFunc({
-//             id: d.id,
-//             position: getXPosition({
-//               data: d,
-//               left: margin.left,
-//               width,
-//               xScale
-//             }),
-//             mediaType: d.media_type
-//           })
-//         )
-//         clearTimeout(timeOut.current)
-//         props.setIsFirstEntered(true)
-//       }
-//     })
-// }
 
 export default enterUpdateExitDelaunay

@@ -64,7 +64,7 @@
           scaleY: 0,
           transformOrigin: 'top',
           duration: durationInSeconds.sm,
-          delay: data.length ? 0.4 : 0,
+          delay: 0.4,
           ease: 'power3.inOut',
           onComplete: () => (activeResult = 0),
         })

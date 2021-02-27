@@ -7,13 +7,17 @@
 </script>
 
 {#if src}
-  <img class={`${size}`} src={`${IMAGE_ROOT_URL}${src}`} {alt} />
+  <img class={`${size} image`} src={`${IMAGE_ROOT_URL}${src}`} {alt} />
 {:else}
-  <div class={`placeholder ${size}`} />
+  <div class={`placeholder ${size} image`} />
 {/if}
 
 <style lang="scss">
   @import '../../../styles/variables.scss';
+
+  .image {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
   .placeholder {
     background-color: $colorTertiary;
   }

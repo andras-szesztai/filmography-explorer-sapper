@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
+  import { cubicIn, cubicOut } from 'svelte/easing'
 
   import { durationInMilliseconds } from '../../../../styles/variables'
 
-  export let topOffset: number = 0
+  // export let topOffset: number = 0
   export let isParentHovered: boolean = false
 
   let isHovered = false
@@ -19,7 +20,16 @@
   <slot />
   {#if isHovered || isParentHovered}
     <div
-      transition:fade={{ duration: durationInMilliseconds.xs }}
+      in:fly={{
+        x: 8,
+        duration: durationInMilliseconds.xs,
+        easing: cubicOut,
+      }}
+      out:fly={{
+        x: 8,
+        duration: durationInMilliseconds.xs,
+        easing: cubicIn,
+      }}
       class="absolute-container"
       style="bottom: {wrapperHeight / 2 - 12}px"
     >

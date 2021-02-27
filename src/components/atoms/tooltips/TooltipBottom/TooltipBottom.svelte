@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
+  import { cubicIn, cubicOut } from 'svelte/easing'
 
   import { durationInMilliseconds } from '../../../../styles/variables'
 
@@ -24,7 +25,16 @@
   {#if isHovered}
     <div
       class="absolute-container"
-      transition:fade={{ duration: durationInMilliseconds.xs }}
+      in:fly={{
+        y: 8,
+        duration: durationInMilliseconds.xs,
+        easing: cubicOut,
+      }}
+      out:fly={{
+        y: 8,
+        duration: durationInMilliseconds.xs,
+        easing: cubicIn,
+      }}
       bind:clientWidth={tooltipWidth}
       style="top: {wrapperHeight + topOffset}px; left: -{leftPosition}px;"
     >

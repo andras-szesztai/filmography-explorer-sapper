@@ -6,6 +6,7 @@
   import { extent } from 'd3-array'
 
   import { TooltipRight } from '../../atoms/tooltips'
+  import { MovieDetailsOnHover } from '../../atoms/tooltipContents'
   import { MainChartElements } from '../../molecules'
 
   import hoverStore from '../../../stores/mainChartHover'
@@ -104,9 +105,7 @@
     >
       <TooltipRight isParentHovered={hoveredStore.isHovered}>
         <div slot="content">
-          <div>Hello</div>
-          <div>World</div>
-          <div>!!!!</div>
+          <MovieDetailsOnHover data={hoveredData.data} />
         </div>
       </TooltipRight>
     </div>

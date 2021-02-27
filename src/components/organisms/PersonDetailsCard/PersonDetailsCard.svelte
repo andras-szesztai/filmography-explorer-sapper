@@ -68,8 +68,6 @@
     grid-template-areas:
       'photo name'
       'photo desc';
-
-    border-radius: 4px;
   }
 
   .photo {

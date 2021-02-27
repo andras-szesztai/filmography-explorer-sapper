@@ -1,5 +1,6 @@
 <script lang="ts">
   import dayjs from 'dayjs'
+  import { fade } from 'svelte/transition'
   import gsap from 'gsap'
   import { selectAll } from 'd3-selection'
   import { beforeUpdate, onDestroy } from 'svelte'
@@ -9,6 +10,8 @@
 
   import Image from '../../Image/Image.svelte'
   import { ArrowRight } from '../../icons'
+
+  import movieStore from '../../../../stores/movieStore'
 
   import { FULL_FORMAT } from '../../../../constants/dates'
   import { BIG_NUM_FORMAT, NUM_FORMAT } from '../../../../constants/numbers'
@@ -21,6 +24,7 @@
 
   import {
     color,
+    durationInMilliseconds,
     durationInSeconds,
     opacity,
   } from '../../../../styles/variables'
@@ -55,8 +59,6 @@
       })
     )
   })
-
-  // TODO: UPDATE with active movie store
 </script>
 
 <div class="container">
@@ -92,10 +94,12 @@
         data.vote_count >= 1000 ? BIG_NUM_FORMAT : NUM_FORMAT
       )} vote{data.vote_count > 1 ? 's' : ''})
     </p>
-    <p>
-      <span> Click </span>
-      to find ot more! &nbsp;<ArrowRight fill={color.primary} size={8} />
-    </p>
+    {#if $movieStore.id !== data.id}
+      <p out:fade={{ duration: durationInMilliseconds.xs }}>
+        <span> Click </span>
+        to find ot more! &nbsp;<ArrowRight fill={color.primary} size={8} />
+      </p>
+    {/if}
   </div>
 </div>
 
@@ -111,7 +115,7 @@
   .content-container {
     white-space: nowrap;
     display: grid;
-    /* grid-template-rows: repeat(, min-content); */
+    align-content: start;
     row-gap: 4px;
 
     color: $colorPrimary;
@@ -120,7 +124,7 @@
     .title {
       font-size: $fs-h6;
       font-weight: $semibold;
-      max-width: 320px;
+      max-width: 280px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

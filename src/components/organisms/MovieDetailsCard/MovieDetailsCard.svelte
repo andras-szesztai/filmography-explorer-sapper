@@ -1,98 +1,95 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
 
+  import { Image, SkeletonLoader } from '../../atoms'
+
+  import movieStore from '../../../stores/movieStore'
+  import { TooltipBottom } from '../../atoms/tooltips'
+  import { LoginToFavorite } from '../../atoms/tooltipContents'
+
   // import { Image, SkeletonLoader } from '../../atoms'
   // import { Star } from '../../atoms/icons'
   // import { TooltipBottom } from '../../atoms/tooltips'
   // import { LoginToFavorite } from '../../atoms/tooltipContents'
 
-  // import personStore from '../../../stores/personStore'
+  $: store = $movieStore
+  $: details = store.details
+  $: credits = store.credits
+  $: loading = store.loading
+  $: error = store.error
 
-  // $: currPerson = $personStore.details
-  // $: loading = store.loading
-  // $: details = store.details
-  // $: error = store.error
+  // TODO: make two content types for medi types, fix loaders
 </script>
 
-<div in:fade class="container">
-  <div>&nbsp;</div>
-</div>
+{#if details || loading}
+  <div in:fade class="container">
+    {#if !error}
+      <div class="title-container">
+        {#if true}
+          <SkeletonLoader place="photo" />
+        {:else if details}
+          <div in:fade={{ delay: 100 }} class="photo">
+            <Image src={details.poster_path} alt="" size="large" />
+            <div in:fade={{ delay: 100 }} class="title">
+              <TooltipBottom topOffset={4}>
+                <h1>Test</h1>
+                <span slot="content">Test</span>
+              </TooltipBottom>
+              <button aria-label={`Mark ${'test'} as favorite`} class="icon">
+                <TooltipBottom topOffset={4}>
+                  <div>Favorite</div>
+                  <div slot="content"><LoginToFavorite /></div>
+                </TooltipBottom>
+              </button>
+            </div>
+          </div>
+        {/if}
+      </div>
+    {:else}
+      <div>Sorry, something went wrong, please try again later.</div>
+    {/if}
+  </div>
+{/if}
 
 <!-- TODO: UPDATE When Logged in -->
 <style lang="scss">
   @import '../../../styles/variables.scss';
-
   .container {
     grid-area: movie;
-
-    padding: 16px;
-    border-radius: 4px;
-
-    /* display: grid;
-    grid-template-columns: 88px 1fr;
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    row-gap: 8px;
+  }
+  .title-container {
+    display: grid;
+    grid-template-columns: 108px 1fr;
     column-gap: 16px;
-    grid-template-rows: min-content 1fr;
+    grid-template-rows: max-content 1fr;
     row-gap: 8px;
     grid-template-areas:
-      'photo name'
-      'photo desc'; */
-  }
+      'photo title'
+      'photo desc';
 
-  /* .photo {
-    grid-area: photo;
-  } */
+    .photo {
+      grid-area: photo;
+    }
 
-  /* .name {
-    grid-area: name;
-    display: flex;
-    align-items: center;
-    h1 {
-      max-width: 260px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: $fs-h1;
-      line-height: 1.15;
-      font-weight: $semibold;
-      color: $colorPrimary;
+    .title {
+      grid-area: title;
+      display: flex;
+      align-items: center;
+      h1 {
+        max-width: 260px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: $fs-h1;
+        line-height: 1.15;
+        font-weight: $semibold;
+        color: $colorLight;
+      }
     }
   }
-
-  .icon {
-    margin-left: 8px;
-    transform: translateY(1px);
-    border: none;
-    background: transparent;
-    cursor: not-allowed;
-
-    &:focus-visible {
-      border: 1px solid darken($colorSecondary, 5%);
-    }
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .desc {
-    grid-area: desc;
-    background: $colorPrimary;
-    border-radius: 3px;
-    padding: 6px 8px;
-    overflow-y: scroll;
-
-    &:focus-visible {
-      border: 2px solid darken($colorSecondary, 5%);
-    }
-    &:focus {
-      outline: none;
-    }
-
-    p {
-      font-size: $fs-milli;
-      font-weight: $light;
-      color: $colorLight;
-    }
-  } */
 
   ::selection {
     color: $colorPrimary;

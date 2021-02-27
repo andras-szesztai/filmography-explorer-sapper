@@ -9,6 +9,7 @@
   import { SwitchButton, SearchResult } from '../../molecules'
 
   import personStore from '../../../stores/personStore'
+  import movieStore from '../../../stores/movieStore'
 
   import { MOVIE_DB_URL } from '../../../constants/requests'
   import { LAST_SEARCHED } from '../../../constants/localStorageKeys'
@@ -140,6 +141,7 @@
   const handleSearch = (id: string) => {
     localStorage.setItem(LAST_SEARCHED, id)
     personStore.populate(id, apiKey)
+    movieStore.empty()
     isFocused = false
     searchString = ''
     activeResult = 0

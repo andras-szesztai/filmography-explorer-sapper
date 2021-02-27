@@ -4,8 +4,8 @@ export type TMedia = 'movie' | 'tv'
 
 export interface IMovieDetails {
   id: number
-  genres: Array<IGenreObject>
   title: string
+  genres: Array<IGenreObject>
   vote_average: number
   vote_count: number
   overview?: string

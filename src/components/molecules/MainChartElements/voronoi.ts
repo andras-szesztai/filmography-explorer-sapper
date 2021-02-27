@@ -60,31 +60,31 @@ const enterUpdateExitDelaunay = ({
           .attr('class', 'delaunay-path')
           .attr('fill', 'transparent')
           .attr('d', (_, i) => delaunay.renderCell(i))
-          .on('mouseover', (_, d) => {
-            hoverStore.set({ isHovered: true, hoveredData: getHoveredData(d) })
-          })
-          .on('mouseout', () =>
-            hoverStore.update((s) => ({ ...s, isHovered: false }))
-          ),
+          .call(addInteractions),
       // .attr('cursor', (d) =>
       //   activeMovieID === d.id ? 'default' : 'pointer'
       // ),
       (update) =>
         update
-          .on('mouseover', (_, d) => {
-            hoverStore.set({ isHovered: true, hoveredData: getHoveredData(d) })
-          })
-          .on('mouseout', () =>
-            hoverStore.update((s) => ({ ...s, isHovered: false }))
-          )
-          // .attr('cursor', (d) =>
-          //   activeMovieID === d.id ? 'default' : 'pointer'
-          // )
+          .call(addInteractions)
           .attr('d', (_, i) => delaunay.renderCell(i)),
       (exit) => exit.remove()
     )
-}
 
-function addInteractions() {}
+  function addInteractions(e: any) {
+    e.on(
+      'mouseover',
+      (
+        _e: Event,
+        d: IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+      ) => {
+        hoverStore.set({ isHovered: true, hoveredData: getHoveredData(d) })
+      }
+    ).on('mouseout', () =>
+      hoverStore.update((s) => ({ ...s, isHovered: false }))
+    )
+    // .on("click")
+  }
+}
 
 export default enterUpdateExitDelaunay

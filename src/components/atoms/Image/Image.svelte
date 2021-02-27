@@ -28,14 +28,14 @@
   }
 
   .medium {
-    height: 90px;
-    /* width: 5px; */
+    height: 112px;
+    width: 74px;
     border-radius: 3;
   }
 
   .large {
-    height: 132px;
-    width: 88px;
+    height: 164px;
+    width: 108px;
     border-radius: 3px;
   }
 </style>

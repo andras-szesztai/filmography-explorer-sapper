@@ -60,10 +60,8 @@
   .container {
     grid-area: person;
 
-    padding: 16px;
-
     display: grid;
-    grid-template-columns: 88px 1fr;
+    grid-template-columns: 108px 1fr;
     column-gap: 16px;
     grid-template-rows: min-content 1fr;
     row-gap: 8px;
@@ -111,7 +109,7 @@
 
   .desc {
     grid-area: desc;
-    background: rgba($colorLight, 0.25);
+    background: rgba($colorLight, 0.15);
     border-radius: 3px;
     padding: 6px 8px;
     overflow-y: scroll;
@@ -139,7 +137,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: lighten($colorPrimary, 10%);
+    background: rgba($colorLight, 0.35);
   }
 
   ::-webkit-scrollbar-thumb {

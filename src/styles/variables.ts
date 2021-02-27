@@ -25,7 +25,7 @@ export const durationInMilliseconds = {
 
 export const opacity = {
   full: 0,
-  low: 0.2,
+  low: 0.15,
   midLow: 0.35,
   mid: 0.5,
   midHigh: 0.65,

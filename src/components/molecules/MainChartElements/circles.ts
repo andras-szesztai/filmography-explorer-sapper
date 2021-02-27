@@ -78,6 +78,7 @@ const enterUpdateExitCircles = ({
               amount: durationInSeconds.xxl,
               ease: 'power2.in',
             },
+            onComplete: () => exit.remove(),
           })
         })
     )

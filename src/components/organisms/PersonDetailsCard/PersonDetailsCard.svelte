@@ -84,7 +84,7 @@
     display: flex;
     align-items: center;
     h1 {
-      max-width: 260px;
+      max-width: 225px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

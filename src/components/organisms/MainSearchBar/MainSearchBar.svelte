@@ -21,6 +21,7 @@
   import type {
     IMovieSearchResult,
     IPersonSearchResult,
+    ISeriesSearchResult,
     TSearchTypes,
   } from '../../../types/mainSearchResults'
   import { SearchTypes } from '../../../types/mainSearchResults'
@@ -34,7 +35,9 @@
   let searchString: string
   let timer: number
   let selected: TSearchTypes = SearchTypes.person
-  let data: Array<IMovieSearchResult | IPersonSearchResult> = []
+  let data: Array<
+    IMovieSearchResult | IPersonSearchResult | ISeriesSearchResult
+  > = []
   let loading: boolean = false
   let error: string
   let isFocused = false
@@ -46,11 +49,11 @@
   onMount(() => {
     const id = localStorage.getItem(LAST_SEARCHED_ID)
     const type = localStorage.getItem(LAST_SEARCHED_TYPE)
-    if (id) {
+    if (id && type) {
       if (type === SearchTypes.person) {
         personStore.populate(id, apiKey)
       } else {
-        movieStore.populate(+id, 'movie', apiKey)
+        movieStore.populate(+id, type, apiKey)
       }
     }
   })
@@ -82,26 +85,61 @@
     }
   })
 
+  // TODO: split it up into smaller chuncks
   const handleInput = () => {
     clearTimeout(timer)
     timer = setTimeout(async () => {
+      const mainRequest = `${MOVIE_DB_URL}/search/${selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${searchString}`
       if (searchString) {
-        try {
-          error = ''
-          loading = true
-          const res = await fetch(
-            `${MOVIE_DB_URL}/search/${selected}?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${searchString}`
-          )
-          const json = await (res.json() as Promise<{
-            results: Array<IPersonSearchResult>
-          }>)
-          data = json.results
-          loading = false
-        } catch (error) {
-          loading = false
-          error = 'Sorry, something went wrong, please try again later.'
+        error = ''
+        loading = true
+        if (selected === SearchTypes.person) {
+          try {
+            const res = await fetch(mainRequest)
+            const json = await (res.json() as Promise<{
+              results: Array<IPersonSearchResult>
+            }>)
+            data = json.results
+            loading = false
+          } catch (error) {
+            loading = false
+            error = 'Sorry, something went wrong, please try again later.'
+            data = []
+          }
+        } else {
+          axios
+            .all([
+              axios.get(mainRequest),
+              axios.get(
+                `${MOVIE_DB_URL}/search/tv?api_key=${$session.MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&query=${searchString}`
+              ),
+            ])
+            .then(
+              axios.spread(
+                (movies: AxiosResponse<any>, tv: AxiosResponse<any>) => {
+                  const moviesData = movies.data.results as Omit<
+                    IMovieSearchResult,
+                    'media_type'
+                  >[]
+                  const seriesData = tv.data.results as Omit<
+                    ISeriesSearchResult,
+                    'media_type'
+                  >[]
+                  data = [
+                    ...moviesData.map((d) => ({ ...d, media_type: 'movie' })),
+                    ...seriesData.map((d) => ({ ...d, media_type: 'tv' })),
+                  ].sort((a, b) => b.popularity - a.popularity)
+                  loading = false
+                }
+              )
+            )
+            .catch(() => {
+              loading = false
+              error = 'Sorry, something went wrong, please try again later.'
+              data = []
+            })
         }
-      } else {
+      } else if (!data.length) {
         data = []
       }
     }, 300)
@@ -143,18 +181,22 @@
       }
       if (key === 'Enter' || key === 'Space') {
         e.detail.element.blur()
-        handleSearch(data[activeResult].id)
+        const selectedData = data[activeResult]
+        handleSearch(
+          selectedData.id,
+          'media_type' in selectedData ? selectedData.media_type : ''
+        )
       }
     }
   }
-  const handleSearch = (id: string) => {
+  const handleSearch = (id: string, mediaType: string) => {
     localStorage.setItem(LAST_SEARCHED_ID, id)
-    localStorage.setItem(LAST_SEARCHED_TYPE, selected)
+    localStorage.setItem(LAST_SEARCHED_TYPE, mediaType || 'person')
     if (selected === SearchTypes.person) {
       personStore.populate(id, apiKey)
       movieStore.empty()
     } else {
-      movieStore.populate(+id, 'movie', apiKey)
+      movieStore.populate(+id, mediaType, apiKey)
       personStore.empty()
     }
     isFocused = false
@@ -210,7 +252,15 @@
                   {index}
                   isActive={activeResult === index}
                   on:mouseenter={() => (activeResult = index)}
-                  on:click={() => handleSearch(data[activeResult].id)}
+                  on:click={() => {
+                    const selectedData = data[activeResult]
+                    handleSearch(
+                      selectedData.id,
+                      'media_type' in selectedData
+                        ? selectedData.media_type
+                        : ''
+                    )
+                  }}
                 />
               {/each}
             </div>

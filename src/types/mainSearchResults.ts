@@ -13,9 +13,20 @@ export interface IMovieSearchResult extends ISearchResultBase {
   genre_ids: number[]
   backdrop_path: string
   title: string
-  original_title?: string
   poster_path: string
   release_date: string
+  popularity: number
+  media_type: string
+}
+
+export interface ISeriesSearchResult extends ISearchResultBase {
+  genre_ids: number[]
+  backdrop_path: string
+  name: string
+  poster_path: string
+  release_date: string
+  popularity: number
+  media_type: string
 }
 
 export interface IPersonSearchResult extends ISearchResultBase {

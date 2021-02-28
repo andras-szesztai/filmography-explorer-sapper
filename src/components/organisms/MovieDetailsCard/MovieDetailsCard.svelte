@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SkeletonLoader } from '../../atoms'
+  // import { SkeletonLoader } from '../../atoms'
 
   import { Bookmark } from '../../atoms/icons'
   import { DetailsTopContent } from '../../molecules'
@@ -9,26 +9,24 @@
   export let store: IMovieStore
 
   $: details = store.details
-  $: credits = store.credits
+  // $: credits = store.credits
   $: loading = store.loading
   $: error = store.error
 </script>
 
 {#if details || loading}
   <div class="container">
-    {#if details}
-      <DetailsTopContent
-        {loading}
-        {error}
-        title={'title' in details ? details.title : details.name}
-        imageSrc={details.poster_path}
-        description={details.overview}
-        actionWhenLoggedIn="bookmark"
-        icon={Bookmark}
-        iconMarginRight={4}
-      />
-      <div class="details-container" />
-    {/if}
+    <DetailsTopContent
+      {loading}
+      {error}
+      title={details && ('title' in details ? details.title : details.name)}
+      imageSrc={details?.poster_path}
+      description={details?.overview}
+      actionWhenLoggedIn="bookmark"
+      icon={Bookmark}
+      iconMarginRight={4}
+    />
+    <div class="details-container" />
   </div>
 {/if}
 

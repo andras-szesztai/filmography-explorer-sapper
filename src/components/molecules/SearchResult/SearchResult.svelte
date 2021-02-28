@@ -8,11 +8,15 @@
   import type {
     IPersonSearchResult,
     IMovieSearchResult,
+    ISeriesSearchResult,
   } from '../../../types/mainSearchResults'
 
   import { durationInMilliseconds } from '../../../styles/variables'
 
-  export let result: IMovieSearchResult | IPersonSearchResult
+  export let result:
+    | IMovieSearchResult
+    | IPersonSearchResult
+    | ISeriesSearchResult
   export let index: number
   export let isActive: boolean = false
 
@@ -26,10 +30,10 @@
   on:mouseleave
   on:click
 >
-  {#if 'title' in result}
+  {#if 'poster_path' in result}
     <Image src={result.poster_path} alt="" size="small" />
     <div class="result-text">
-      <span class="main">{result.title}</span>
+      <span class="main">{'title' in result ? result.title : result.name}</span>
       <div class="sub">
         Release date:
         <span>

@@ -3,7 +3,7 @@
 
   import { SkeletonLoader } from '../../atoms'
 
-  import { Star } from '../../atoms/icons'
+  import { Bookmark } from '../../atoms/icons'
   import { DetailsTopContent } from '../../molecules'
 
   import movieStore from '../../../stores/movieStore'
@@ -16,7 +16,7 @@
 </script>
 
 {#if details || loading}
-  <div in:fade class="container">
+  <div class="container">
     {#if details && 'title' in details}
       <DetailsTopContent
         {loading}
@@ -25,7 +25,8 @@
         imageSrc={details.poster_path}
         description={details.overview}
         actionWhenLoggedIn="bookmark"
-        icon={Star}
+        icon={Bookmark}
+        iconMarginRight={4}
       />
     {:else if details && 'name' in details}
       <DetailsTopContent
@@ -35,7 +36,8 @@
         imageSrc={details.poster_path}
         description={details.overview}
         actionWhenLoggedIn="bookmark"
-        icon={Star}
+        icon={Bookmark}
+        iconMarginRight={4}
       />
     {/if}
   </div>

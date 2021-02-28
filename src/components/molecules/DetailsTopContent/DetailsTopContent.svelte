@@ -12,53 +12,60 @@
   export let imageSrc: string | undefined
   export let description: string | undefined
   export let actionWhenLoggedIn: string
+  export let iconMarginRight = 0
   export let icon: typeof SvelteComponent
 </script>
 
-{#if !error}
-  <div class="container">
-    {#if loading}
-      <SkeletonLoader place="photo" />
-      <SkeletonLoader place="title" />
-      <SkeletonLoader place="desc" />
-    {:else if imageSrc}
-      <div in:fade={{ delay: 100 }} class="photo">
+<div class="container">
+  {#if !error}
+    {#if !loading}
+      <div class="photo">
         <Image src={imageSrc} alt="" size="large" />
       </div>
-      <div in:fade={{ delay: 100 }} class="title">
+      <div class="title">
         <TooltipBottom topOffset={4}>
           <h1>
             {title}
           </h1>
           <span slot="content">{title}</span>
         </TooltipBottom>
-        <button aria-label="Mark {title} as {actionWhenLoggedIn}" class="icon">
+        <button
+          style="margin-right: {iconMarginRight}px"
+          aria-label="Mark {title} as {actionWhenLoggedIn}"
+          class="icon"
+        >
           <TooltipBottom topOffset={4}>
             <svelte:component this={icon} />
             <div slot="content"><LoginToFavorite {actionWhenLoggedIn} /></div>
           </TooltipBottom>
         </button>
       </div>
-      <div in:fade={{ delay: 100 }} tabindex="0" class="desc">
+      <div tabindex="0" class="desc">
         <p>
           {description}
         </p>
       </div>
     {/if}
-  </div>
-{:else}
-  <div>Sorry, something went wrong, please try again later.</div>
-{/if}
+    <SkeletonLoader {loading} place="photo" />
+    <SkeletonLoader {loading} place="title" />
+    <SkeletonLoader {loading} place="desc" />
+  {:else if error && !loading}
+    <div transition:fade={{ delay: 100 }} class="error">
+      Sorry, something went wrong
+    </div>
+  {/if}
+</div>
 
 <!-- TODO: UPDATE When Logged in -->
 <style lang="scss">
   @import '../../../styles/variables.scss';
   .container {
+    position: relative;
     display: grid;
     grid-template-columns: 108px 1fr;
     column-gap: 16px;
-    grid-template-rows: 42px 115px;
-    row-gap: 8px;
+    grid-template-rows: 36px 116px;
+    row-gap: 12px;
     grid-template-areas:
       'photo title'
       'photo desc';
@@ -73,11 +80,11 @@
       align-items: center;
 
       h1 {
-        max-width: 260px;
+        max-width: 270px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: $fs-h1;
+        font-size: $fs-h2;
         line-height: 1.15;
         font-weight: $semibold;
         color: $colorLight;
@@ -85,7 +92,7 @@
     }
 
     .icon {
-      margin-left: 8px;
+      margin-left: 4px;
       transform: translateY(1px);
       border: none;
       background: transparent;
@@ -118,6 +125,13 @@
         font-weight: $light;
         color: $colorLight;
       }
+    }
+    .error {
+      position: absolute;
+      font-size: $fs-h2;
+      line-height: 1.15;
+      font-weight: $semibold;
+      color: $colorLight;
     }
   }
 

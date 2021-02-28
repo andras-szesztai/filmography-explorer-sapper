@@ -27,10 +27,10 @@
     display: grid;
     padding: 24px;
 
-    grid-template-columns: 1fr 420px;
-    column-gap: 24px;
+    grid-template-columns: 1fr 440px;
+    column-gap: 48px;
     grid-template-rows: repeat(2, 70px) 1fr 50px;
-    row-gap: 24px;
+    row-gap: 32px;
     grid-template-areas:
       'search person'
       'filter person'

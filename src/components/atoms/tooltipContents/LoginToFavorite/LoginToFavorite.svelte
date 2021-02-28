@@ -13,7 +13,7 @@
 <style lang="scss">
   @import '../../../../styles/variables.scss';
   .container {
-    width: 100px;
+    width: 120px;
 
     p {
       text-align: left;

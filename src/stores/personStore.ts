@@ -14,7 +14,8 @@ import type {
   IPersonDetails,
 } from '../types/person'
 
-interface IPersonStore {
+export interface IPersonStore {
+  id: number
   details?: IPersonDetails
   credits?: Array<
     IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
@@ -24,6 +25,7 @@ interface IPersonStore {
 }
 
 const { subscribe, set, update } = writable<IPersonStore>({
+  id: 0,
   details: undefined,
   credits: undefined,
   loading: false,
@@ -146,6 +148,7 @@ const personStore = {
               .sort((a, b) => b.vote_count - a.vote_count)
 
             set({
+              id: +id,
               details: personDetailsData,
               credits: combinedCredits,
               loading: false,
@@ -156,12 +159,22 @@ const personStore = {
       )
       .catch(() => {
         set({
+          id: 0,
           details: undefined,
           credits: undefined,
           loading: false,
           error: 'Sorry, something went wrong, please try again later.',
         })
       })
+  },
+  empty: () => {
+    set({
+      id: 0,
+      details: undefined,
+      credits: undefined,
+      loading: false,
+      error: '',
+    })
   },
 }
 

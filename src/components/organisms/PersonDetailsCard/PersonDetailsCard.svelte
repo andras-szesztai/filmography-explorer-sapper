@@ -1,25 +1,20 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
-
   import { Star } from '../../atoms/icons'
   import { DetailsTopContent } from '../../molecules'
 
-  import personStore from '../../../stores/personStore'
+  import type { IPersonStore } from '../../../stores/personStore'
 
-  $: store = $personStore
-  $: loading = store.loading
-  $: details = store.details
-  $: error = store.error
+  export let store: IPersonStore
 </script>
 
-{#if details || loading}
-  <div in:fade class="card">
+{#if store.details || store.loading}
+  <div class="card">
     <DetailsTopContent
-      {loading}
-      {error}
-      title={details?.name}
-      imageSrc={details?.profile_path}
-      description={details?.biography}
+      loading={store.loading}
+      error={store.error}
+      title={store.details?.name}
+      imageSrc={store.details?.profile_path}
+      description={store.details?.biography}
       actionWhenLoggedIn="favorite"
       icon={Star}
     />

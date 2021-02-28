@@ -9,7 +9,7 @@ import type {
   ISeriesDetails,
 } from '../types/media'
 
-interface IStore {
+export interface IMovieStore {
   id: number
   details?: IMovieDetails | ISeriesDetails
   credits?: IMediaCredits
@@ -17,7 +17,7 @@ interface IStore {
   error: string
 }
 
-const { subscribe, set, update } = writable<IStore>({
+const { subscribe, set, update } = writable<IMovieStore>({
   id: 0,
   details: undefined,
   credits: undefined,

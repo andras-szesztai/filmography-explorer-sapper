@@ -6,15 +6,19 @@
   } from '../../organisms'
 
   import personStore from '../../../stores/personStore'
+  import movieStore from '../../../stores/movieStore'
 
-  $: store = $personStore
+  $: pStore = $personStore
+  $: mStore = $movieStore
 </script>
 
-<section>
-  <PersonDetailsCard />
-  <MovieDetailsCard />
-  <div class="filter" />
-  <MainChart data={store.credits} />
+<section class:only-movie={!!mStore.id && !pStore.id}>
+  <PersonDetailsCard store={pStore} />
+  <MainChart data={pStore.credits} />
+  <MovieDetailsCard store={mStore} />
+  {#if pStore.id}
+    <div class="filter" />
+  {/if}
   <div class="quick" />
   <div class="info" />
 </section>
@@ -27,14 +31,22 @@
     display: grid;
     padding: 24px;
 
-    grid-template-columns: 1fr 440px;
+    grid-template-columns: 1fr 500px;
     column-gap: 48px;
     grid-template-rows: repeat(2, 70px) 1fr 50px;
     row-gap: 32px;
+
     grid-template-areas:
       'search person'
       'filter person'
       'chart movie'
+      'quick info';
+  }
+  .only-movie {
+    grid-template-areas:
+      'search person'
+      'movie person'
+      'movie chart'
       'quick info';
   }
   .filter {

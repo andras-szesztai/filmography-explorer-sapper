@@ -6,9 +6,10 @@
   import { Bookmark } from '../../atoms/icons'
   import { DetailsTopContent } from '../../molecules'
 
-  import movieStore from '../../../stores/movieStore'
+  import type { IMovieStore } from '../../../stores/movieStore'
 
-  $: store = $movieStore
+  export let store: IMovieStore
+
   $: details = store.details
   $: credits = store.credits
   $: loading = store.loading
@@ -36,6 +37,7 @@
   @import '../../../styles/variables.scss';
   .container {
     grid-area: movie;
+    width: 500px;
     display: grid;
     grid-template-rows: max-content 1fr;
     row-gap: 8px;

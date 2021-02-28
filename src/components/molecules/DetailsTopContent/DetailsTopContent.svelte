@@ -80,7 +80,7 @@
       align-items: center;
 
       h1 {
-        max-width: 270px;
+        max-width: 335px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -144,7 +144,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: lighten($colorPrimary, 10%);
+    background: rgba($colorLight, 0.35);
   }
 
   ::-webkit-scrollbar-thumb {

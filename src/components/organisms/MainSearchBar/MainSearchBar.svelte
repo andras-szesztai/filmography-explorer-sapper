@@ -12,7 +12,10 @@
   import movieStore from '../../../stores/movieStore'
 
   import { MOVIE_DB_URL } from '../../../constants/requests'
-  import { LAST_SEARCHED } from '../../../constants/localStorageKeys'
+  import {
+    LAST_SEARCHED_ID,
+    LAST_SEARCHED_TYPE,
+  } from '../../../constants/localStorageKeys'
 
   import type {
     IMovieSearchResult,
@@ -40,9 +43,14 @@
   let activeResult = 0
 
   onMount(() => {
-    const id = localStorage.getItem(LAST_SEARCHED)
+    const id = localStorage.getItem(LAST_SEARCHED_ID)
+    const type = localStorage.getItem(LAST_SEARCHED_TYPE)
     if (id) {
-      personStore.populate(id, apiKey)
+      if (type === SearchTypes.person) {
+        personStore.populate(id, apiKey)
+      } else {
+        movieStore.populate(+id, 'movie', apiKey)
+      }
     }
   })
 
@@ -139,16 +147,20 @@
     }
   }
   const handleSearch = (id: string) => {
-    localStorage.setItem(LAST_SEARCHED, id)
-    personStore.populate(id, apiKey)
-    movieStore.empty()
+    localStorage.setItem(LAST_SEARCHED_ID, id)
+    localStorage.setItem(LAST_SEARCHED_TYPE, selected)
+    if (selected === SearchTypes.person) {
+      personStore.populate(id, apiKey)
+      movieStore.empty()
+    } else {
+      movieStore.populate(+id, 'movie', apiKey)
+      personStore.empty()
+    }
     isFocused = false
     searchString = ''
     activeResult = 0
     data = []
   }
-
-  // TODO: style scrollbar
 
   $: placeholder =
     selected === SearchTypes.person
@@ -217,7 +229,7 @@
     position: absolute;
     top: 24px;
     left: 24px;
-    z-index: 1;
+    z-index: 2;
     @media (max-width: $breakpoint-mobile) {
       top: 12px;
       left: 12px;
@@ -298,5 +310,21 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+  }
+  ::selection {
+    color: $colorPrimary;
+    background: $colorSecondary;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba($colorLight, 0.15);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $colorSecondary;
+    border-radius: 2px;
   }
 </style>

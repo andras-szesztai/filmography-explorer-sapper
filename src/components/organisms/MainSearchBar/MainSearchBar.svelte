@@ -1,5 +1,6 @@
 <script lang="ts">
   import { stores } from '@sapper/app'
+  import axios, { AxiosResponse } from 'axios'
   import { afterUpdate, onMount } from 'svelte'
   import { fade } from 'svelte/transition'
   import gsap from 'gsap'
@@ -250,7 +251,7 @@
       padding: 4px 8px;
     }
 
-    border: 2px solid darken($colorSecondary, 5%);
+    border: 2px solid $colorSecondary;
 
     &:focus {
       outline: 1px solid red;
@@ -291,9 +292,9 @@
     overflow-y: scroll;
     background-color: $colorPrimary;
     border-radius: 0 0 4px 4px;
-    border-left: 2px solid darken($colorSecondary, 5%);
-    border-bottom: 2px solid darken($colorSecondary, 5%);
-    border-right: 2px solid darken($colorSecondary, 5%);
+    border-left: 2px solid $colorSecondary;
+    border-bottom: 2px solid $colorSecondary;
+    border-right: 2px solid $colorSecondary;
 
     transform: scaleY(0);
 

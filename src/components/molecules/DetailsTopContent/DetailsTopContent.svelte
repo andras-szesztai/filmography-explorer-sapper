@@ -99,7 +99,7 @@
       cursor: not-allowed;
 
       &:focus-visible {
-        border: 1px solid darken($colorSecondary, 5%);
+        border: 1px solid $colorSecondary;
       }
       &:focus {
         outline: none;
@@ -114,7 +114,7 @@
       overflow-y: scroll;
 
       &:focus-visible {
-        border: 2px solid darken($colorSecondary, 5%);
+        border: 2px solid $colorSecondary;
       }
       &:focus {
         outline: none;

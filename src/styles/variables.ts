@@ -1,8 +1,8 @@
 export const color = {
   primary: '#0C2331',
-  secondary: '#f05c26',
+  secondary: '#ef4e14',
   tertiary: '#8e8574',
-  light: '#f9f9f9',
+  light: '#fefefe',
 }
 
 export const durationInSeconds = {

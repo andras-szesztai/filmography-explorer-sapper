@@ -31,7 +31,7 @@
   }
 
   .primary {
-    background-color: darken($colorSecondary, 6%);
+    background-color: $colorSecondary;
     border: 2px solid transparent;
     color: lighten($colorLight, 5%);
     transition: all 0.2s ease;
@@ -47,7 +47,7 @@
   .default {
     padding: 2px 24px;
     border-radius: 4px;
-    font-weight: $normal;
+    font-weight: $semibold;
     font-size: $fs-h5;
 
     @media (max-width: $breakpoint-mobile) {

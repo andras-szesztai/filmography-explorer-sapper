@@ -67,7 +67,7 @@
       cursor: pointer;
 
       &:focus-visible {
-        border: 1px solid darken($colorSecondary, 5%);
+        border: 1px solid $colorSecondary;
       }
       &:focus {
         outline: none;
@@ -82,7 +82,7 @@
 
     .active {
       position: absolute;
-      background-color: darken($colorSecondary, 5%);
+      background-color: $colorSecondary;
       left: -6px;
       top: -3px;
       width: 40px;

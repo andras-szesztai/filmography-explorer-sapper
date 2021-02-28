@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
-
   import { SkeletonLoader } from '../../atoms'
 
   import { Bookmark } from '../../atoms/icons'
@@ -29,6 +27,7 @@
         icon={Bookmark}
         iconMarginRight={4}
       />
+      <div class="details-container" />
     {/if}
   </div>
 {/if}
@@ -40,8 +39,16 @@
     width: 500px;
     display: grid;
     grid-template-rows: max-content 1fr;
-    row-gap: 8px;
+    row-gap: 16px;
   }
+
+  .details-container {
+    background: rgba($colorLight, 0.15);
+    border-radius: 3px;
+    padding: 6px 8px;
+    overflow-y: scroll;
+  }
+
   ::selection {
     color: $colorPrimary;
     background: $colorSecondary;
@@ -51,7 +58,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: lighten($colorPrimary, 10%);
+    background: rgba($colorLight, 0.35);
   }
 
   ::-webkit-scrollbar-thumb {

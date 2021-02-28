@@ -17,22 +17,11 @@
 
 {#if details || loading}
   <div class="container">
-    {#if details && 'title' in details}
+    {#if details}
       <DetailsTopContent
         {loading}
         {error}
-        title={details.title}
-        imageSrc={details.poster_path}
-        description={details.overview}
-        actionWhenLoggedIn="bookmark"
-        icon={Bookmark}
-        iconMarginRight={4}
-      />
-    {:else if details && 'name' in details}
-      <DetailsTopContent
-        {loading}
-        {error}
-        title={details.name}
+        title={'title' in details ? details.title : details.name}
         imageSrc={details.poster_path}
         description={details.overview}
         actionWhenLoggedIn="bookmark"

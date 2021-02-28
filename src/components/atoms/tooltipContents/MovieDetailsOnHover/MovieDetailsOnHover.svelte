@@ -41,7 +41,11 @@
     >('circle').each((d, i, n) =>
       gsap.to(n[i], {
         fill: chroma(color.light)
-          .alpha(d.id === data.id ? opacity.none : opacity.midLow)
+          .alpha(
+            d.id === data.id || d.id === $movieStore.id
+              ? opacity.none
+              : opacity.midLow
+          )
           .hex(),
         duration: durationInSeconds.xs,
       })
@@ -52,9 +56,11 @@
     selectAll<
       SVGCircleElement,
       IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
-    >('circle').each((_, i, n) =>
+    >('circle').each((d, i, n) =>
       gsap.to(n[i], {
-        fill: chroma(color.light).alpha(opacity.midLow).hex(),
+        fill: chroma(color.light)
+          .alpha(d.id === $movieStore.id ? opacity.none : opacity.midLow)
+          .hex(),
         duration: durationInSeconds.xs,
       })
     )

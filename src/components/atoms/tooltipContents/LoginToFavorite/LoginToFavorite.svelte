@@ -1,11 +1,12 @@
 <script lang="ts">
+  export let actionWhenLoggedIn: string
 </script>
 
 <div class="container">
   <p>
     You have to
     <span> login </span>
-    to be able to favorite
+    to be able to {actionWhenLoggedIn}
   </p>
 </div>
 

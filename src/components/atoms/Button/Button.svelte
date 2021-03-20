@@ -9,11 +9,12 @@
   }
 
   // Props
-  export let text: string = 'Button'
+  export let text: string | undefined = undefined
   export let type: 'primary' | 'secondary' = 'primary'
   export let size: 'default' | 'sm' = 'default'
   export let icon: typeof SvelteComponent | undefined = undefined
   export let disabled: boolean = false
+  export let translateIconY: number = 3
 
   let buttonElement: HTMLButtonElement
 </script>
@@ -25,11 +26,16 @@
   bind:this={buttonElement}
   on:click={() => !disabled && handleClick()}
 >
-  <span class:text-container={icon} on:click={() => buttonElement.blur()}>
-    {capitalize(text)}
-  </span>
+  {#if text}
+    <span class:text-container={icon} on:click={() => buttonElement.blur()}>
+      {capitalize(text)}
+    </span>
+  {/if}
   {#if icon}
-    <span class="icon-container">
+    <span
+      style="transform: translateY({translateIconY}px);"
+      class:icon-container={!!text}
+    >
       <svelte:component this={icon} />
     </span>
   {/if}
@@ -87,13 +93,13 @@
   }
 
   .default {
-    padding: 2px 24px;
+    padding: 2px 20px;
     border-radius: 4px;
     font-weight: $semibold;
     font-size: $fs-h5;
 
     @media (max-width: $breakpoint-mobile) {
-      padding: 1px 18px;
+      padding: 1px 16px;
       font-size: $fs-h6;
     }
   }
@@ -117,7 +123,6 @@
   }
   .icon-container {
     margin-left: 12px;
-    transform: translateY(3px);
 
     @media (max-width: $breakpoint-mobile) {
       margin-left: 0px;

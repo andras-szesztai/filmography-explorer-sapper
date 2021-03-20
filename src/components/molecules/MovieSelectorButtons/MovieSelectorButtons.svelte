@@ -3,6 +3,7 @@
   import { isUndefined } from 'lodash'
 
   import { Button } from '../../atoms'
+  import { FilledArrowLeft, FilledArrowRight } from '../../atoms/icons'
 
   import type {
     IPersonCastCredits,
@@ -30,7 +31,8 @@
   <Button
     size="sm"
     type="secondary"
-    text="Previous"
+    icon={FilledArrowLeft}
+    translateIconY={4}
     disabled={currIndex === credits.length - 1}
     on:click={() => {
       !isUndefined(currIndex) &&
@@ -44,7 +46,8 @@
   <Button
     size="sm"
     type="secondary"
-    text="Next"
+    icon={FilledArrowRight}
+    translateIconY={4}
     disabled={currIndex === 0}
     on:click={() =>
       !isUndefined(currIndex) &&

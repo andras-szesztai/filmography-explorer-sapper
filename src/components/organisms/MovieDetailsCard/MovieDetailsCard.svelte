@@ -18,7 +18,6 @@
   // 4. Make cast & crew details row for movies and series combined
   // 5. Make last selected movie retained too in localStorage
   // 6. Make movie + persson deselectable
-  // 7. wire up next and previous buttons with disabled state (needs credits from personStore)
 
   $: personId = pStore.id
   $: movieId = mStore.id

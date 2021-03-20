@@ -4,8 +4,8 @@
 
   // Props
   export let text: string = 'Button'
-  export let type: 'primary' = 'primary'
-  export let size: 'default' = 'default'
+  export let type: 'primary' | 'secondary' = 'primary'
+  export let size: 'default' | 'sm' = 'default'
   export let icon: typeof SvelteComponent | undefined = undefined
 
   let buttonElement: HTMLButtonElement
@@ -44,6 +44,20 @@
     }
   }
 
+  .secondary {
+    background-color: $colorPrimary;
+    border: 2px solid $colorSecondary;
+    color: lighten($colorLight, 5%);
+    transition: all 0.2s ease;
+
+    &:hover,
+    &:focus {
+      outline: none;
+      background-color: $colorSecondary;
+      border: 2px solid transparent;
+    }
+  }
+
   .default {
     padding: 2px 24px;
     border-radius: 4px;
@@ -53,6 +67,18 @@
     @media (max-width: $breakpoint-mobile) {
       padding: 1px 18px;
       font-size: $fs-h6;
+    }
+  }
+
+  .sm {
+    padding: 1px 12px;
+    border-radius: 3px;
+    font-weight: $semibold;
+    font-size: $fs-h6;
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1px 8px;
+      font-size: $fs-base;
     }
   }
 

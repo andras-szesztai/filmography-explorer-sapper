@@ -54,4 +54,16 @@
   :global(h6) {
     font-size: $fs-h6;
   }
+  :global(::-webkit-scrollbar) {
+    width: 8px;
+  }
+
+  :global(::-webkit-scrollbar-track) {
+    background: rgba($colorLight, 0.35);
+  }
+
+  :global(::-webkit-scrollbar-thumb) {
+    background: $colorSecondary;
+    border-radius: 2px;
+  }
 </style>

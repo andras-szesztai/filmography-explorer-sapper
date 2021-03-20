@@ -2,17 +2,17 @@
   // import { SkeletonLoader } from '../../atoms'
 
   import { Bookmark } from '../../atoms/icons'
-  import { DetailsTopContent } from '../../molecules'
+  import { DetailsTopContent, MovieDetailsBottomContent } from '../../molecules'
 
   import type { IMovieStore } from '../../../stores/movieStore'
 
   export let store: IMovieStore
 
   // TODO:
-  // 1. Fetch and store all genres on mount
   // 2. Make a top details row for movies and serios separate (with genre filter)
-  // 4. Make score details row for movies and series combined
-  // 3. Make cast & crew details row for movies and series combined
+  // 3. Make score details row for movies and series combined
+  // 4. Make cast & crew details row for movies and series combined
+  // 5. Make last selected movie retained too in localStorage
   $: details = store.details
   // $: credits = store.credits
   $: loading = store.loading
@@ -32,13 +32,7 @@
       iconMarginRight={4}
     />
     <div class="details-container">
-      {#if !loading && details}
-        {#if 'title' in details}
-          <div>Movie</div>
-        {:else}
-          <div>Series</div>
-        {/if}
-      {/if}
+      <MovieDetailsBottomContent {loading} {error} {details} />
     </div>
   </div>
 {/if}
@@ -47,33 +41,22 @@
   @import '../../../styles/variables.scss';
   .container {
     grid-area: movie;
-    width: 500px;
+    align-self: stretch;
     display: grid;
+    width: 500px;
     grid-template-rows: max-content 1fr;
     row-gap: 16px;
   }
 
   .details-container {
+    place-self: stretch;
+    position: relative;
     background: rgba($colorLight, 0.15);
     border-radius: 3px;
-    padding: 6px 8px;
-    overflow-y: scroll;
   }
 
   ::selection {
     color: $colorPrimary;
     background: $colorSecondary;
-  }
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba($colorLight, 0.35);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: $colorSecondary;
-    border-radius: 2px;
   }
 </style>

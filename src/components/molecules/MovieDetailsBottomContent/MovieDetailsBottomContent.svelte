@@ -2,7 +2,7 @@
   import type { IMovieDetails, ISeriesDetails } from '../../../types/media'
   import { fade } from 'svelte/transition'
 
-  import { SkeletonLoader } from '../../atoms'
+  import { DetailsInfo, SkeletonLoader } from '../../atoms'
 
   export let loading: boolean
   export let error: string
@@ -12,8 +12,10 @@
 <div class="bottom-content-container">
   <div class="grid">
     {#if !error}
-      {#if !loading}
-        <div class="info">Info</div>
+      {#if !loading && details}
+        <div class="info">
+          <DetailsInfo {details} />
+        </div>
         <div class="genres">Genres</div>
         <div class="score">Score</div>
         <div class="crew">Crew</div>
@@ -43,7 +45,7 @@
 
     .grid {
       display: grid;
-      grid-template-rows: 100px 50px 100px;
+      grid-template-rows: 96px 50px 100px;
       row-gap: 12px;
       grid-template-columns: repeat(2, 1fr);
       column-gap: 16px;
@@ -56,6 +58,10 @@
 
     .info {
       grid-area: info;
+      border-radius: 2px;
+      display: grid;
+      grid-template-rows: repeat(4, min-content);
+      row-gap: 4px;
     }
 
     .genres {

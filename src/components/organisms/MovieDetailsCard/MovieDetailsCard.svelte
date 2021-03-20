@@ -10,7 +10,7 @@
   export let store: IMovieStore
 
   // TODO:::
-  // 2. Make a top details row for movies and serios separate (with genre filter)
+  // 2. Make a top details row for movies and series separate (with genre filter)
   // 3. Make score details row for movies and series combined
   // 4. Make cast & crew details row for movies and series combined
   // 5. Make last selected movie retained too in localStorage
@@ -51,7 +51,7 @@
     align-self: stretch;
     display: grid;
     width: 500px;
-    grid-template-rows: max-content 1fr 30px;
+    grid-template-rows: max-content 1fr 32px;
     row-gap: 16px;
   }
 

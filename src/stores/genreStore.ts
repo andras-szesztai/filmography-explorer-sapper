@@ -21,7 +21,6 @@ const { subscribe, set, update } = writable<IGenreStore>({
 const genreStore = {
   subscribe,
   populate: (apiKey: string) => {
-    console.log('🚀 ~ file: genreStore.ts ~ line 24 ~ apiKey', apiKey)
     update((state) => ({ ...state, loading: true, error: '' }))
     axios
       .all([

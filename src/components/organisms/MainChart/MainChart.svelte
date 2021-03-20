@@ -23,7 +23,7 @@
   export let data:
     | Array<IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits>
     | undefined
-
+  export let selectedMovie: number
   let prevData = data
 
   let wrapperHeight: number
@@ -121,6 +121,7 @@
         {yScale}
         {sizeScale}
         {data}
+        {selectedMovie}
         width={wrapperWidth}
         height={wrapperHeight}
       />

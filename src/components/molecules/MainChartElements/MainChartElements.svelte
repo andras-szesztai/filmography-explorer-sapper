@@ -2,7 +2,10 @@
   import { beforeUpdate } from 'svelte'
   import { stores } from '@sapper/app'
   import type { ScaleTime, ScaleLinear, ScalePower } from 'd3-scale'
-  import { isEqual } from 'lodash'
+  import { isEqual, isUndefined } from 'lodash'
+  import gsap from 'gsap'
+  import { selectAll } from 'd3-selection'
+  import chroma from 'chroma-js'
 
   import enterUpdateExitCircles from './circles'
   import enterUpdateExitDelaunay from './voronoi'
@@ -16,10 +19,12 @@
     IPersonCrewCredits,
   } from '../../../types/person'
   import enterUpdateExitXAxis from './xAxis'
+  import { durationInSeconds, opacity, color } from '../../../styles/variables'
 
   export let data:
     | Array<IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits>
     | undefined
+  export let selectedMovie: number
   export let width: number
   export let height: number
   export let xScale: ScaleTime<number, number, never>
@@ -84,6 +89,32 @@
       prevSizeScale = sizeScale
     }
   })
+
+  let prevSelectedMovie: number
+  $: {
+    if (isUndefined(prevSelectedMovie)) {
+      prevSelectedMovie = selectedMovie
+    }
+    if (
+      data &&
+      !isUndefined(selectedMovie) &&
+      !isUndefined(prevSelectedMovie) &&
+      selectedMovie !== prevSelectedMovie
+    ) {
+      selectAll<
+        SVGCircleElement,
+        IPersonCrewCredits | IPersonCastCredits | IPersonCrewCastCredits
+      >('circle').each((d, i, n) =>
+        gsap.to(n[i], {
+          fill: chroma(color.light)
+            .alpha(d.id === selectedMovie ? opacity.none : opacity.midLow)
+            .hex(),
+          duration: durationInSeconds.xs,
+        })
+      )
+      prevSelectedMovie = selectedMovie
+    }
+  }
 </script>
 
 <g bind:this={yGridArea} transform="translate(0 {mainChartMargins.top})" />

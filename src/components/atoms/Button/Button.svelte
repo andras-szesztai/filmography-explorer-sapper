@@ -1,17 +1,30 @@
 <script lang="ts">
-  import type { SvelteComponent } from 'svelte'
+  import { createEventDispatcher, SvelteComponent } from 'svelte'
   import capitalize from 'lodash/capitalize'
+
+  const dispatch = createEventDispatcher()
+
+  function handleClick() {
+    dispatch('click')
+  }
 
   // Props
   export let text: string = 'Button'
   export let type: 'primary' | 'secondary' = 'primary'
   export let size: 'default' | 'sm' = 'default'
   export let icon: typeof SvelteComponent | undefined = undefined
+  export let disabled: boolean = false
 
   let buttonElement: HTMLButtonElement
 </script>
 
-<button class={`${size} ${type}`} bind:this={buttonElement}>
+<button
+  class={`${size} ${type}`}
+  class:disabled
+  {disabled}
+  bind:this={buttonElement}
+  on:click={() => !disabled && handleClick()}
+>
   <span class:text-container={icon} on:click={() => buttonElement.blur()}>
     {capitalize(text)}
   </span>
@@ -47,7 +60,7 @@
   .secondary {
     background-color: $colorPrimary;
     border: 2px solid $colorSecondary;
-    color: lighten($colorLight, 5%);
+    color: $colorLight;
     transition: all 0.2s ease;
 
     &:hover,
@@ -55,6 +68,21 @@
       outline: none;
       background-color: $colorSecondary;
       border: 2px solid transparent;
+    }
+  }
+
+  .disabled {
+    opacity: 0.35;
+    background-color: $colorPrimary;
+    border: 2px solid $colorLight;
+    color: $colorLight;
+    cursor: not-allowed;
+
+    &:hover,
+    &:focus {
+      outline: none;
+      background-color: $colorPrimary;
+      border: 2px solid $colorLight;
     }
   }
 

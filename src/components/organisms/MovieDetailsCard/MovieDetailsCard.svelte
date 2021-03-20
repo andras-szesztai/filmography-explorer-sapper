@@ -1,25 +1,33 @@
 <script lang="ts">
-  // import { SkeletonLoader } from '../../atoms'
-
   import { Bookmark } from '../../atoms/icons'
-  import { DetailsTopContent, MovieDetailsBottomContent } from '../../molecules'
+  import {
+    DetailsTopContent,
+    MovieDetailsBottomContent,
+    MovieSelectorButtons,
+  } from '../../molecules'
 
   import type { IMovieStore } from '../../../stores/movieStore'
-  import { Button } from '../../atoms'
+  import type { IPersonStore } from '../../../stores/personStore'
 
-  export let store: IMovieStore
+  export let mStore: IMovieStore
+  export let pStore: IPersonStore
 
   // TODO:::
-  // 2. Make a top details row for movies and series separate (with genre filter)
+  // 2. Genre list + filter
   // 3. Make score details row for movies and series combined
   // 4. Make cast & crew details row for movies and series combined
   // 5. Make last selected movie retained too in localStorage
   // 6. Make movie + persson deselectable
-  // 7. wire up next and previous buttons with disabled state
-  $: details = store.details
-  // $: credits = store.credits
-  $: loading = store.loading
-  $: error = store.error
+  // 7. wire up next and previous buttons with disabled state (needs credits from personStore)
+
+  $: personId = pStore.id
+  $: movieId = mStore.id
+  $: personCredits = pStore.credits
+
+  $: details = mStore.details
+  // $: credits = mStore.credits
+  $: loading = mStore.loading
+  $: error = mStore.error
 </script>
 
 {#if details || loading}
@@ -37,10 +45,9 @@
     <div class="details-container">
       <MovieDetailsBottomContent {loading} {error} {details} />
     </div>
-    <div class="controls-container">
-      <Button size="sm" type="secondary" text="Previous" />
-      <Button size="sm" type="secondary" text="Next" />
-    </div>
+    {#if personId && personCredits}
+      <MovieSelectorButtons credits={personCredits} currMovieId={movieId} />
+    {/if}
   </div>
 {/if}
 
@@ -51,7 +58,7 @@
     align-self: stretch;
     display: grid;
     width: 500px;
-    grid-template-rows: max-content 1fr 32px;
+    grid-template-rows: max-content 1fr max-content;
     row-gap: 16px;
   }
 
@@ -60,13 +67,6 @@
     position: relative;
     background: rgba($colorLight, 0.15);
     border-radius: 3px;
-  }
-
-  .controls-container {
-    display: grid;
-    grid-template-columns: repeat(2, max-content);
-    column-gap: 8px;
-    justify-content: end;
   }
 
   ::selection {

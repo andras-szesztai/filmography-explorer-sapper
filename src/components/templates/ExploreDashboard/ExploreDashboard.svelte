@@ -14,8 +14,8 @@
 
 <section class:only-movie={!!mStore.id && !pStore.id}>
   <PersonDetailsCard store={pStore} />
-  <MainChart data={pStore.credits} />
-  <MovieDetailsCard store={mStore} />
+  <MainChart data={pStore.credits} selectedMovie={mStore.id} />
+  <MovieDetailsCard {mStore} {pStore} />
   {#if pStore.id}
     <div class="filter" />
   {/if}

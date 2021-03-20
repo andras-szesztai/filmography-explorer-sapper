@@ -4,7 +4,7 @@
 
 <div class="container">
   <p>
-    You have to
+    Please
     <span> login </span>
     to be able to {actionWhenLoggedIn}
   </p>
@@ -13,7 +13,7 @@
 <style lang="scss">
   @import '../../../../styles/variables.scss';
   .container {
-    width: 120px;
+    width: 135px;
 
     p {
       text-align: left;

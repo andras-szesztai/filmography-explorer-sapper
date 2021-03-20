@@ -87,11 +87,13 @@
 </script>
 
 <g bind:this={yGridArea} transform="translate(0 {mainChartMargins.top})" />
-<g
-  bind:this={xAxisArea}
-  transform="translate({mainChartMargins.left}  {height -
-    mainChartMargins.top / 2})"
-/>
+{#if height}
+  <g
+    bind:this={xAxisArea}
+    transform="translate({mainChartMargins.left}  {height -
+      mainChartMargins.top / 2})"
+  />
+{/if}
 <g
   bind:this={circlesArea}
   transform="translate({mainChartMargins.left} {mainChartMargins.top})"

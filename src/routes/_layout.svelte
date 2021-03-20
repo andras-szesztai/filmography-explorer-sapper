@@ -1,8 +1,19 @@
 <script lang="ts">
+  import { stores } from '@sapper/app'
   import { gsap } from 'gsap'
+  import { onMount } from 'svelte'
   import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
   import { NavBar } from '../components/molecules'
+
+  import genreStore from '../stores/genreStore'
+
+  const { session } = stores()
+  const apiKey = $session.MOVIE_DB_API_KEY
+
+  onMount(() => {
+    genreStore.populate(apiKey)
+  })
 
   gsap.registerPlugin(ScrollToPlugin)
 </script>

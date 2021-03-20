@@ -13,6 +13,7 @@
 
   import { mainChartMargins } from '../../../constants/chart'
 
+  // TODO: fix after movie select, does not populate only on window update
   import type {
     IPersonCastCredits,
     IPersonCrewCastCredits,

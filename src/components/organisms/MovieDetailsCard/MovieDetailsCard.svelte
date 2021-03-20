@@ -8,6 +8,11 @@
 
   export let store: IMovieStore
 
+  // TODO:
+  // 1. Fetch and store all genres on mount
+  // 2. Make a top details row for movies and serios separate (with genre filter)
+  // 4. Make score details row for movies and series combined
+  // 3. Make cast & crew details row for movies and series combined
   $: details = store.details
   // $: credits = store.credits
   $: loading = store.loading
@@ -26,7 +31,15 @@
       icon={Bookmark}
       iconMarginRight={4}
     />
-    <div class="details-container" />
+    <div class="details-container">
+      {#if !loading && details}
+        {#if 'title' in details}
+          <div>Movie</div>
+        {:else}
+          <div>Series</div>
+        {/if}
+      {/if}
+    </div>
   </div>
 {/if}
 

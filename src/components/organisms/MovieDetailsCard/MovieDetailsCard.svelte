@@ -12,12 +12,13 @@
   export let mStore: IMovieStore
   export let pStore: IPersonStore
 
-  // TODO:::
-  // 2. Genre list + filter
-  // 3. Make score details row for movies and series combined
-  // 4. Make cast & crew details row for movies and series combined
-  // 5. Make last selected movie retained too in localStorage
-  // 6. Make movie + persson deselectable
+  // TODO
+  // 🔵 Genre list + filter
+  // 🔵 Make score details row for movies and series combined
+  // 🔵 Make cast & crew details row for movies and series combined
+  // 🔵 Make last selected movie retained too in localStorage
+  // 🔵 Make movie + person deselectable
+  // 🔵 box-shadow for focus state https://egghead.io/lessons/scss-create-custom-css-styles-for-form-submit-buttons
 
   $: personId = pStore.id
   $: movieId = mStore.id
